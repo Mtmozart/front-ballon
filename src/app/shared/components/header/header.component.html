@@ -1,0 +1,17 @@
+<header class="header-content">
+  <div class="logo">
+    <a href="/"> Ballon </a>
+  </div>
+  <nav class="navbar-content">
+    <ul>
+      <li><a>Home</a></li>
+      <li><a>Perfil</a></li>
+      <li><a>Gráficos</a></li>
+      <li>
+        <button (click)="toggle()">
+          <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
