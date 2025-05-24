@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { ILogin } from "./auth.types";
+import { ILogin, ILoginResponse } from "./auth.types";
 import { AuthService } from "./auth.services";
 
 @Component({
@@ -23,8 +23,10 @@ export class AuthComponent {
       email: this.login.email,
       password: this.login.password,
     };
-    this.service.login(auth).subscribe((res) => {
+    this.service.login(auth).subscribe((res: ILoginResponse) => {
+      const token = res.token;
       console.log("Token:", res);
+      localStorage.setItem("token", token);
     });
   }
 }
