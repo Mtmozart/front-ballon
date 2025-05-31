@@ -17,6 +17,14 @@ export class AuthComponent {
   };
 
   constructor(private service: AuthService) {}
+  ngOnInit(): void {
+    console.log(this.user);
+  }
+
+  get user() {
+    const user = this.service.user();
+    return user;
+  }
 
   submitForm() {
     const auth: ILogin = {

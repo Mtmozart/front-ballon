@@ -1,40 +1,66 @@
 import { Component, OnInit } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormRecord,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { CustomerService } from "../customer.service";
 import { Consumer } from "../customer.types";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { DefaultLoginLayoutComponent } from "../../components/default-login-layout/default-login-layout.component";
+import { PrimaryInputComponent } from "../../components/primary-input/primary-input.component";
+
+interface IRegisterForm {
+  name: FormControl;
+  email: FormControl;
+  password: FormControl;
+  passwordConfirm: FormControl;
+}
 
 @Component({
   selector: "app-register-consumer",
   standalone: true,
-  imports: [FormsModule],
+  imports: [
+    DefaultLoginLayoutComponent,
+    ReactiveFormsModule,
+    PrimaryInputComponent,
+  ],
   templateUrl: "./register.component.html",
   styleUrls: ["./register.component.css"],
 })
-export class RegisterConsumerComponent implements OnInit {
-  consumer = {
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
+export class RegisterConsumerComponent {
+  registerForm!: FormGroup<IRegisterForm>;
 
-  constructor(private service: CustomerService) {}
-
-  ngOnInit(): void {}
-
-  submitForm() {
-    if (this.consumer.password !== this.consumer.confirmPassword) {
-      alert("As senhas não coincidem!");
-      return;
-    }
+  constructor(
+    private service: CustomerService,
+    private toastService: ToastrService,
+    private router: Router,
+  ) {
+    this.registerForm = new FormGroup({
+      name: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      email: new FormControl("", [Validators.required, Validators.email]),
+      password: new FormControl("", [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+      passwordConfirm: new FormControl("", [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+    });
+  }
+  submit() {
     const newCustomer: Consumer = {
-      name: this.consumer.name,
-      email: this.consumer.email,
-      password: this.consumer.password,
+      name: this.registerForm.value.name,
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password,
       createAt: new Date(),
     };
-    this.service.register(newCustomer).subscribe((res) => {
-      console.log("Cliente registrado:", res);
-    });
+  }
+  navigate() {
+    this.router.navigate(["login"]);
   }
 }

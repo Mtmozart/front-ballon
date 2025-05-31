@@ -1,7 +1,7 @@
 <!-- profile.component.html -->
 <div *ngIf="authService.user(); let user">
   <h2>Perfil do Usuário</h2>
-  <p><strong>Nome:</strong> {{ user.name }}</p>
+  <p><strong>Nome:</strong></p>
 </div>
 <div *ngIf="!authService.user()">
   <p>Usuário não está logado.</p>

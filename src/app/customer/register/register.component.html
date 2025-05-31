@@ -1,54 +1,41 @@
-<section class="form-control-container">
-  <header><h2>Registre-se</h2></header>
-  <form action="">
-    <div class="form-input">
-      <label for="name">Nome:</label>
-      <input
-        type="text"
-        class="input"
-        id="name"
-        name="name"
-        placeholder="Digite o seu nome completo"
-        required
-        [(ngModel)]="consumer.name"
-      />
-    </div>
-    <div class="form-input">
-      <label for="email">E-mail:</label>
-      <input
-        type="email"
-        class="input"
-        id="email"
-        name="email"
-        placeholder="Digite o email"
-        required
-        [(ngModel)]="consumer.email"
-      />
-    </div>
-    <div class="form-input">
-      <label for="password">Senha:</label>
-      <input
-        type="password"
-        class="input"
-        id="password"
-        name="password"
-        placeholder="Digite sua senha"
-        required
-        [(ngModel)]="consumer.password"
-      />
-    </div>
-    <div class="form-input">
-      <label for="confirmPassword">Confirme sua senha:</label>
-      <input
-        type="password"
-        class="input"
-        id="confirmPassword"
-        name="confirmPassword"
-        placeholder="Confirme sua senha"
-        required
-        [(ngModel)]="consumer.confirmPassword"
-      />
-    </div>
-    <button (click)="submitForm()">Registrar</button>
+<app-default-login-layout
+  title="Sign in and start today!t"
+  primaryBtnText="Signup Now"
+  secondaryBtnText="Login Now"
+  (submit)="submit()"
+  (navigate)="navigate()"
+  [disablePrimaryBtn]="!registerForm.valid"
+>
+  <form [formGroup]="registerForm">
+    <app-primary-input
+      formControlName="name"
+      inputName="name"
+      type="text"
+      label="Your name"
+      placeholder="John Doe"
+    >
+    </app-primary-input>
+    <app-primary-input
+      formControlName="email"
+      inputName="email"
+      type="email"
+      label="Email"
+      placeholder="johndoe@gmail.com"
+    >
+    </app-primary-input>
+    <app-primary-input
+      formControlName="password"
+      inputName="password"
+      type="password"
+      label="Your Password"
+    >
+    </app-primary-input>
+    <app-primary-input
+      formControlName="passwordConfirm"
+      inputName="passwordConfirm"
+      type="password"
+      label="Confirm your Password"
+    >
+    </app-primary-input>
   </form>
-</section>
+</app-default-login-layout>

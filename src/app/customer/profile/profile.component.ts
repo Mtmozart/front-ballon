@@ -5,8 +5,8 @@ import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-profile",
-  standalone: true, // Se estiver usando Angular 17+
-  imports: [CommonModule], // Necessário para *ngIf, etc.
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: "./profile.component.html",
   styleUrl: "./profile.component.css",
 })
