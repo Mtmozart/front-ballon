@@ -1,12 +1,22 @@
-import { Component, Inject, PLATFORM_ID, afterNextRender } from "@angular/core";
+import {
+  Component,
+  Inject,
+  PLATFORM_ID,
+  afterNextRender,
+  effect,
+  inject,
+} from "@angular/core";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
-import { isPlatformBrowser } from "@angular/common";
+import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { AuthService } from "../../../features/auth/auth.services";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-header",
   standalone: true,
-  imports: [FaIconComponent],
+  imports: [FaIconComponent, CommonModule],
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.css",
 })
@@ -14,19 +24,30 @@ export class HeaderComponent {
   faMoon = faMoon;
   faSun = faSun;
   isDarkMode = false;
-
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  authService = inject(AuthService);
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private toastService: ToastrService,
+    private router: Router,
+  ) {
     afterNextRender(() => {
       if (isPlatformBrowser(this.platformId)) {
         this.isDarkMode = document.body.classList.contains("dark-theme");
       }
     });
+    effect(() => {
+      this.authService.user();
+    });
   }
-
   toggle() {
     if (isPlatformBrowser(this.platformId)) {
       document.body.classList.toggle("dark-theme");
       this.isDarkMode = !this.isDarkMode;
     }
+  }
+  logout() {
+    this.authService.logout();
+    this.router.navigate(["/auth"]);
+    this.toastService.success("Logout feito com sucesso");
   }
 }

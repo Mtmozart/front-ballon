@@ -12,12 +12,11 @@ import { AuthService } from "./features/auth/auth.services";
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = "ballon";
-  constructor(private authService: AuthService) {}
-  ngOnInit(): void {
-    console.log("aqui");
-    const test = this.authService["getUserByToken"]().subscribe();
-    console.log(test);
+  constructor(private auth: AuthService) {}
+
+  ngOnInit() {
+    this.auth.getUserByToken().subscribe();
   }
 }

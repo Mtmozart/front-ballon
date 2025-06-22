@@ -1,7 +1,7 @@
 <app-default-login-layout
-  title="Sign in and start today!t"
-  primaryBtnText="Signup Now"
-  secondaryBtnText="Login Now"
+  title="Cadastre-se e comece hoje!"
+  primaryBtnText="Registre-se"
+  secondaryBtnText="Login"
   (submit)="submit()"
   (navigate)="navigate()"
   [disablePrimaryBtn]="!registerForm.valid"
@@ -11,31 +11,38 @@
       formControlName="name"
       inputName="name"
       type="text"
-      label="Your name"
-      placeholder="John Doe"
+      label="Nome completo"
+      placeholder="Matheus Mozart"
     >
     </app-primary-input>
     <app-primary-input
       formControlName="email"
       inputName="email"
       type="email"
-      label="Email"
-      placeholder="johndoe@gmail.com"
+      label="E-mail"
+      placeholder="seu-email@gmail.com"
     >
     </app-primary-input>
     <app-primary-input
       formControlName="password"
       inputName="password"
       type="password"
-      label="Your Password"
+      label="Senha"
     >
     </app-primary-input>
+    <div *ngIf="registerForm.errors?.['passwordWeak']" class="error">
+      A senha deve ter pelo menos uma letra maiúscula e uma minúscula com mais
+      de 6 caracteres.
+    </div>
     <app-primary-input
       formControlName="passwordConfirm"
       inputName="passwordConfirm"
       type="password"
-      label="Confirm your Password"
+      label="Confirme sua senha"
     >
     </app-primary-input>
+    <div *ngIf="registerForm.errors?.['passwordMismatch']" class="error">
+      Senhas divergentes.
+    </div>
   </form>
 </app-default-login-layout>
