@@ -1,28 +1,36 @@
-import { Component, inject, effect } from "@angular/core";
+import { Component, inject, signal, computed, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { AuthService } from "../../features/auth/auth.services";
-import { Route, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { TitleComponent } from "../../shared/components/Title/title.component";
 
 @Component({
   selector: "app-profile",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TitleComponent],
   templateUrl: "./profile.component.html",
-  styleUrl: "./profile.component.css",
+  styleUrls: ["./profile.component.css"],
 })
 export class ProfileComponent {
-  authService = inject(AuthService);
-  constructor(
-    private router: Router,
-    private toastService: ToastrService,
-  ) {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private toast = inject(ToastrService);
+
+  readonly user = this.authService.user;
+  readonly loading = this.authService.loading;
+
+  constructor() {
     effect(() => {
-      const user = this.authService.user();
-      if (!user) {
-        toastService.error("Usuário sem autorização.");
-        this.router.navigate(["/auth"]);
-      }
+      this.getCurrentUser();
     });
+  }
+
+  private getCurrentUser() {
+    const user = this.user();
+    if (!user && !this.loading()) {
+      this.toast.error("Usuário não autorizado.");
+      this.router.navigate(["/auth"]);
+    }
   }
 }

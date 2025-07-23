@@ -1,20 +1,20 @@
 import { Injectable, signal, inject, Inject, PLATFORM_ID } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable, tap, of } from "rxjs";
+import { Observable, tap, of, finalize } from "rxjs";
 import { isPlatformBrowser } from "@angular/common";
 import { ApiService } from "../../api/api.service";
 import { ConsumerResponse } from "../../customer/customer.types";
+import { setTimeout } from "timers";
 
 type token = {
   token: string;
 };
 @Injectable({ providedIn: "root" })
 export class AuthService {
-  private currentUser = signal<{ user: ConsumerResponse | null }>({
-    user: null,
-  });
+  private currentUser = signal<ConsumerResponse | null>(null);
   private readonly platformId = inject(PLATFORM_ID);
   public readonly user = this.currentUser.asReadonly();
+  public loading = signal(false);
 
   constructor(private apiService: ApiService) {}
 
@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   logout(): void {
-    this.currentUser.set({ user: null });
+    this.currentUser.set(null);
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem("token");
     }
@@ -42,20 +42,24 @@ export class AuthService {
     return false;
   }
 
-  public getUserByToken(): Observable<any> {
+  public getUserByToken(): Observable<ConsumerResponse | null> {
+    this.loading.set(true);
+
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem("token");
+
       if (token) {
-        const teste = this.apiService
+        return this.apiService
           .get<ConsumerResponse>("consumers/me", {
             headers: { Authorization: `Bearer ${token}` },
           })
           .pipe(
-            tap((user: ConsumerResponse) => this.currentUser.set({ user })),
+            tap((user: ConsumerResponse) => this.currentUser.set(user)),
+            finalize(() => this.loading.set(false)),
           );
-        return teste;
       }
     }
+    this.loading.set(false);
     return of(null);
   }
 }

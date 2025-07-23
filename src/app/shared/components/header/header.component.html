@@ -6,7 +6,7 @@
     <ul>
       <li><a routerLink="/">Home</a></li>
       <li *ngIf="authService.user() as user"><a  routerLink="/profile">Perfil</a></li>
-      <li *ngIf="authService.user() as user"><a>Gráficos</a></li>
+      <li *ngIf="authService.user() as user"><a  routerLink="/expense">Gastos</a></li>
       <li *ngIf="authService.user() as user"><a (click)="logout()">Logout</a></li>
       <li *ngIf="!authService.user()"><a>Login</a></li>
       <li>

@@ -1,0 +1,35 @@
+.input-wrapper {
+  color: var(--text-color);
+  font-size: 0.9rem;
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0;
+}
+
+.input-wrapper label {
+  padding: 5px 0px 3px 1px;
+  margin-bottom: 5px;
+}
+.input-wrapper select {
+  width: 100%;
+  border-radius: 8px;
+  padding: 8px 10px;
+  border: none;
+  background-color: var(--white);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  outline: none;
+  box-sizing: border-box;
+  display: block;
+  border: 1px solid var(--primary-color);
+}
+
+.input-wrapper select:disabled {
+  background-color: var(--secondary-color);
+  cursor: not-allowed;
+  opacity: 0.6;
+}

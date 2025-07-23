@@ -1,0 +1,15 @@
+<div class="input-wrapper">
+  <label *ngIf="label">{{ label }}:</label>
+
+  <select
+    [disabled]="disabled"
+    [value]="value"
+    (change)="onSelectChange($event)"
+  >
+    <option value="" disabled [selected]="!value">{{ placeholder || 'Selecione...' }}</option>
+
+    <option *ngFor="let opt of options" [value]="opt.value">
+      {{ opt.label }}
+    </option>
+  </select>
+</div>

@@ -2,11 +2,28 @@
   <label [for]="inputName">{{ label }}</label>
   <div class="input-content">
     <input
+      *ngIf="mask; else noMaskInput"
       [type]="type"
       [placeholder]="placeholder"
       [value]="value"
       (input)="onInput($event)"
+      [id]="inputName"
+      [mask]="mask"
+      [prefix]="prefix"
+      [thousandSeparator]="thousandSeparator"
+      [decimalMarker]="decimalMarker"
     />
+
+    <ng-template #noMaskInput>
+      <input
+        [type]="type"
+        [placeholder]="placeholder"
+        [value]="value"
+        (input)="onInput($event)"
+        [id]="inputName"
+      />
+    </ng-template>
+
     <div class="icon">
       <ng-content></ng-content>
     </div>

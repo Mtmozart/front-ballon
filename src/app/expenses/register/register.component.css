@@ -1,0 +1,122 @@
+.register__expense__container {
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+  max-width: 1250px;
+  box-sizing: border-box;
+}
+
+.form-group-title {
+  text-align: center;
+  font-weight: 600;
+  padding: 20px;
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+}
+
+.form-group-inline {
+  flex: 1 1 100%;
+  min-width: 150px;
+}
+
+@media (min-width: 600px) {
+  .form-group-inline {
+    flex: 1 1 calc(50% - 10px);
+  }
+}
+
+.register__expense__form {
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  padding: 1em;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 6px 20px rgba(0, 0, 0, 0.1);
+}
+.form-group-inline {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.form-group-inline label {
+  margin-top: 7px;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+.form-control {
+  padding: 9px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+select.form-control {
+  height: 42px;
+}
+
+.submit-button {
+  box-sizing: border-box;
+  align-items: bottom;
+  justify-content: center;
+  min-width: 40px;
+  height: auto;
+  margin-top: 24px;
+  color: #0056b3;
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 2rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: none;
+}
+
+.submit-button mat-icon {
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.submit-button:hover {
+  color: blue;
+}
+
+.submit-button:active {
+  transform: scale(0.98);
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+.error-message {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}

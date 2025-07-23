@@ -1,8 +1,19 @@
-<div *ngIf="authService.user() as user">
-  <h1>Bem-vindo, {{ user.user!.name }}!</h1>
-  <p>Email: {{ user.user!.email }}</p>
-</div>
+<section class="profile-container">
+  <div *ngIf="loading()" class="loading-spinner">
+    Carregando...
+  </div>
+  <div *ngIf="!loading() && user()" class="user-profile">
+    <app-title size="h1" title="Meu Perfil"></app-title>
 
-<div *ngIf="!authService.user()">
-  <p>Carregando dados do usuário...</p>
-</div>
+    <div class="user-info">
+      <div class="user-details">
+        <p><strong>Nome:</strong> {{ user()?.name }}</p>
+        <p><strong>Email:</strong> {{ user()?.email }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading() && !user()" class="no-user">
+    <p>Nenhum usuário autenticado encontrado.</p>
+  </div>
+</section>

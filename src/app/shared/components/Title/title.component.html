@@ -1,0 +1,32 @@
+<ng-container [ngSwitch]="size">
+  <h1 *ngSwitchCase="'h1'" [class]="cssClass">
+    {{ title }}
+    <ng-content *ngIf="!title"></ng-content>
+  </h1>
+
+  <h2 *ngSwitchCase="'h2'" [class]="cssClass">
+    {{ title }}
+    <ng-content *ngIf="!title"></ng-content>
+  </h2>
+
+  <h3 *ngSwitchCase="'h3'" [class]="cssClass">
+    {{ title }}
+    <ng-content *ngIf="!title"></ng-content>
+  </h3>
+
+  <h4 *ngSwitchCase="'h4'" [class]="cssClass">
+    {{ title }}
+    <ng-content *ngIf="!title"></ng-content>
+  </h4>
+
+  <h5 *ngSwitchCase="'h5'" [class]="cssClass">
+    {{ title }}
+    <ng-content *ngIf="!title"></ng-content>
+  </h5>
+
+  <!-- Fallback padrão caso size seja inválido -->
+  <h1 *ngSwitchDefault [class]="cssClass">
+    {{ title }}
+    <ng-content *ngIf="!title"></ng-content>
+  </h1>
+</ng-container>

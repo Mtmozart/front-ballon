@@ -1,0 +1,69 @@
+<section class="register__expense__container">
+  <div class="form-group-title">
+  <h2>Registro de gasto</h2>
+  </div>
+  <div class="register__expense__form">
+  <form [formGroup]="registerExpenseForm" (ngSubmit)="onSubmit()" class="inline-form">
+    <div class="form-group-inline">
+      <label for="title">Título:</label>
+      <input
+        id="title"
+        formControlName="title"
+        name="title"
+        type="text"
+        placeholder="Compras"
+        class="form-control"
+      >
+    </div>
+
+    <div class="form-group-inline">
+      <label for="value">Gasto:</label>
+      <input
+        id="value"
+        formControlName="value"
+        name="value"
+        type="text"
+        placeholder="R$ 0,00"
+        class="form-control"
+        mask="separator.2"
+        thousandSeparator="."
+        decimalMarker=","
+        prefix="R$ "
+      >
+    </div>
+    <div class="form-group-inline">
+      <app-select
+        formControlName="categoriaId"
+        [options]="categoriaOptions"
+        label="Categoria"
+        placeholder="Selecione"
+      ></app-select>
+    </div>
+
+    <div class="form-group-inline">
+      <app-select
+        formControlName="month"
+        [options]="monthsOptions"
+        label="Mês"
+        placeholder="Selecione"
+      ></app-select>
+    </div>
+
+    <div class="form-group-inline">
+      <label for="year">Ano:</label>
+      <input
+        id="year"
+        formControlName="year"
+        name="year"
+        type="text"
+        placeholder="AAAA"
+        class="form-control"
+        mask="0000"
+      >
+    </div>
+    <button type="submit" class="submit-button" mat-raised-button color="primary">
+      <mat-icon>add_box_outline</mat-icon>
+    </button>
+  </form>
+  </div>
+</section>
