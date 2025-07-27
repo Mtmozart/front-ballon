@@ -1,0 +1,67 @@
+.expense-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+app-expense-item {
+  flex-grow: 1;
+}
+
+.buttons-container {
+  padding-top: 20px;
+  display: flex;
+  gap: 10px;
+  margin-left: 15px;
+}
+
+.edit-button {
+  box-sizing: border-box;
+  align-items: bottom;
+  justify-content: center;
+  height: auto;
+  margin-top: 24px;
+  color: #0056b3;
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.5rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: none;
+}
+
+.delete-button {
+  box-sizing: border-box;
+  align-items: bottom;
+  justify-content: center;
+  height: auto;
+  margin-top: 24px;
+  color: var(--red);
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.5rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: none;
+}
+
+.submit-button mat-icon {
+  font-size: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.submit-button:active {
+  transform: scale(0.98);
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  transform: none;
+}

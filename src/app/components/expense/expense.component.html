@@ -1,3 +1,11 @@
-<section class='form-control'>
-
+<section class="expense-item">
+  <div class="expense-header">
+    <h2>Titulo: {{ expense.title }}</h2>
+  </div>
+  <div class="expense-details">
+    <p><strong>Categoria:</strong> {{ categoryPTLabel }}</p>
+    <p><strong>Mês:</strong> {{ monthPT }}</p>
+    <p><strong>Ano:</strong> {{ expense.year }}</p>
+    <span class="expense-value">{{ formattedAmount }}</span>
+  </div>
 </section>

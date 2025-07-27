@@ -14,24 +14,26 @@ import { SelectComponent } from "../../components/select/select.component";
 import { AuthService } from "../../features/auth/auth.services";
 import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
 import { MatIconModule } from "@angular/material/icon";
+import { ExpenseService } from "../expenses.service";
+import { CreateExpense, Expense } from "../expenses.types";
+import { CategoryEnum } from "./register.types";
 
 interface IRegisterExpense {
-  month: FormControl<string | null>;
-  year: FormControl<string | null>;
-  title: FormControl<string | null>;
-  value: FormControl<string | null>;
-  consumerId: FormControl<string | null>;
-  categoriaId: FormControl<string | null>;
+  month: FormControl;
+  year: FormControl;
+  title: FormControl;
+  value: FormControl;
+  categoryId: FormControl;
 }
 
-const categories = {
-  FIXED_COSTS: "Gastos fixos",
-  COMFORT: "Conforto",
-  GOALS: "Metas",
-  KNOWLEDGE: "Conhecimento",
-  PLEASURES: "Prazeres",
-  FINANCIAL_FREEDOM: "Liberdade financeira",
-};
+const categoryOptions = [
+  { value: CategoryEnum.FIXED_COSTS, label: "Gastos Fixos" },
+  { value: CategoryEnum.COMFORT, label: "Conforto" },
+  { value: CategoryEnum.GOALS, label: "Metas" },
+  { value: CategoryEnum.KNOWLEDGE, label: "Conhecimento" },
+  { value: CategoryEnum.PLEASURES, label: "Prazeres" },
+  { value: CategoryEnum.FINANCIAL_FREEDOM, label: "Liberdade Financeira" },
+];
 
 const months = {
   JANUARY: "Janeiro",
@@ -55,17 +57,16 @@ export const expenseValidator: ValidatorFn = (
   const year = control.get("year")?.value;
   const title = control.get("title")?.value;
   const value = control.get("value")?.value;
-  const categoriaId = control.get("categoriaId")?.value;
+  const categoriaId = control.get("categoryId")?.value;
 
   if (!month || !year || !title || !value || !categoriaId) {
     return { required: "Todos os campos são obrigatórios" };
   }
-
   return null;
 };
 
 @Component({
-  selector: "expense-page",
+  selector: "register-expense-component",
   standalone: true,
   imports: [
     CommonModule,
@@ -81,38 +82,42 @@ export const expenseValidator: ValidatorFn = (
 export class RegisterExpenseComponent {
   private authService = inject(AuthService);
   private toastService = inject(ToastrService);
-
+  private expenseService = inject(ExpenseService);
+  private expenses: Expense[] = [];
   readonly user = this.authService.user;
   registerExpenseForm: FormGroup<IRegisterExpense>;
-
-  categoriaOptions = Object.entries(categories).map(([value, label]) => ({
-    value,
-    label,
-  }));
-
+  categoriaOptions = categoryOptions;
   monthsOptions = Object.entries(months).map(([value, label]) => ({
     value,
     label,
   }));
 
-  constructor() {
+  constructor(private service: ExpenseService) {
     this.registerExpenseForm = new FormGroup<IRegisterExpense>(
       {
         month: new FormControl("", [Validators.required]),
         year: new FormControl("", [
           Validators.required,
-          Validators.pattern(/^\d{4}$/),
+          Validators.minLength(4),
+          Validators.maxLength(4),
+          Validators.pattern(/^\d+$/),
         ]),
-        title: new FormControl("", [Validators.required]),
+        title: new FormControl("", [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+        ]),
         value: new FormControl("", [Validators.required]),
-        consumerId: new FormControl(""),
-        categoriaId: new FormControl("", [Validators.required]),
+        categoryId: new FormControl("", [Validators.required]),
       },
       { validators: expenseValidator },
     );
 
     effect(() => {
-      this.getCurrentUser();
+      const user = this.user();
+      if (user) {
+        this.getCurrentUser();
+      }
     });
   }
 
@@ -130,13 +135,23 @@ export class RegisterExpenseComponent {
     }
     numericValue = rawValue;
     if (this.registerExpenseForm.valid) {
-      const formValue = {
-        ...this.registerExpenseForm.value,
+      const expense: CreateExpense = {
+        month: this.registerExpenseForm.value.month,
+        categoriaId: this.registerExpenseForm.value.categoryId,
         consumerId: user.id,
+        title: this.registerExpenseForm.value.title,
         value: numericValue,
+        year: this.registerExpenseForm.value.year,
       };
-      console.log("Form enviado:", formValue);
-      this.toastService.success("Despesa registrada com sucesso!");
+      this.expenseService.register(expense).subscribe({
+        next: () => {
+          this.toastService.success("Despensa registrada com sucesso.");
+        },
+        error: (err) => {
+          console.error("Erro:", err);
+          this.toastService.error("Erro ao gerar despesa.");
+        },
+      });
       this.registerExpenseForm.reset();
     } else {
       this.toastService.error(
@@ -147,6 +162,5 @@ export class RegisterExpenseComponent {
   }
   private getCurrentUser() {
     const user = this.user();
-    console.log("Usuário atual:", user);
   }
 }

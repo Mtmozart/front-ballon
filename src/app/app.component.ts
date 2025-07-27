@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { HeaderComponent } from "./shared/components/header/header.component";
-import { FooterComponent } from "./shared/components/footer/footer.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { AuthService } from "./features/auth/auth.services";
+import { FooterComponent } from "./common/components/footer/footer.component";
+import { HeaderComponent } from "./common/components/header/header.component";
 
 @Component({
   selector: "app-root",
@@ -14,9 +14,10 @@ import { AuthService } from "./features/auth/auth.services";
 })
 export class AppComponent {
   title = "ballon";
-  constructor(private auth: AuthService) {}
 
-  ngOnInit() {
-    this.auth.getUserByToken().subscribe();
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.getUserByToken().subscribe();
   }
 }

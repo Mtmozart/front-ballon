@@ -1,0 +1,32 @@
+.expense-item {
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.expense-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+.expense-header h2 {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  margin: 0;
+  font-weight: 500;
+}
+
+.expense-value {
+  font-size: var(--font-size-small);
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.expense-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+  font-size: var(--font-size-small);
+  color: #555;
+}

@@ -9,7 +9,6 @@ type Size = "h1" | "h2" | "h3" | "h4" | "h5";
   imports: [CommonModule],
   templateUrl: "./title.component.html",
   styleUrls: ["./title.component.css"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TitleComponent {
   @Input({ required: true }) size: Size = "h1";

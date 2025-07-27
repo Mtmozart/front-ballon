@@ -44,7 +44,6 @@ export class AuthService {
 
   public getUserByToken(): Observable<ConsumerResponse | null> {
     this.loading.set(true);
-
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem("token");
 
@@ -61,5 +60,9 @@ export class AuthService {
     }
     this.loading.set(false);
     return of(null);
+  }
+
+  public getToken(): string | null {
+    return localStorage.getItem("token");
   }
 }

@@ -1,0 +1,15 @@
+.expenses__container {
+  height: auto;
+  max-height: 100%;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+app-title {
+  text-align: center;
+}
+@media (min-width: 1120px) {
+  .expenses__container {
+    min-width: 70rem;
+  }
+}

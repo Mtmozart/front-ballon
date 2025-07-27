@@ -4,7 +4,7 @@
 }
 .title-h2 {
   font-size: 2rem;
-  color: darkgreen;
+  color: var(--primary-color);
 }
 .title-h3 {
   font-size: 1.75rem;

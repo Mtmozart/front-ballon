@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { AuthService } from "../../features/auth/auth.services";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { TitleComponent } from "../../shared/components/Title/title.component";
+import { TitleComponent } from "../../common/components/title/title.component";
 
 @Component({
   selector: "app-profile",

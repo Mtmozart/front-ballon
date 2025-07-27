@@ -6,12 +6,6 @@
   box-sizing: border-box;
 }
 
-.form-group-title {
-  text-align: center;
-  font-weight: 600;
-  padding: 20px;
-}
-
 .inline-form {
   display: flex;
   flex-wrap: wrap;
@@ -37,10 +31,6 @@
   padding: 1em;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.1),
-    0 6px 20px rgba(0, 0, 0, 0.1);
 }
 .form-group-inline {
   display: flex;

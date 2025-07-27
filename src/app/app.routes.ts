@@ -4,6 +4,7 @@ import { AuthComponent } from "./features/auth/auth.component";
 import { ProfileComponent } from "./customer/profile/profile.component";
 import { AuthGuard } from "./features/auth/auth.guard";
 import { RegisterExpenseComponent } from "./expenses/register/register.component";
+import { ExpensePage } from "./expenses/pages/register-expense-page.component";
 export const routes: Routes = [
   {
     path: "",
@@ -20,8 +21,8 @@ export const routes: Routes = [
     component: ProfileComponent,
   },
   {
-    path: "expense",
+    path: "expenses",
     canActivate: [AuthGuard],
-    component: RegisterExpenseComponent,
+    component: ExpensePage,
   },
 ];
