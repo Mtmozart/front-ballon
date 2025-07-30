@@ -10,18 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
+      - name: Checkout do repositório
         uses: actions/checkout@v3
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: npm install
 
-      - name: Build project
+      - name: Build do projeto
         run: npm run build -- --configuration=production
 
-      - name: Deploy to Vercel
+      - name: Deploy para Vercel
         uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: '--prod'
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod --yes'
           working-directory: '.'
