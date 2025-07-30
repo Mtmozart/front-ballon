@@ -1,4 +1,4 @@
-name: Deploy in Vercel
+name: Deploy to Vercel
 
 on:
   push:
@@ -6,23 +6,22 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
+      - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Instalar dependências
+      - name: Install dependencies
         run: npm install
 
-      - name: Build Angular
+      - name: Build project
         run: npm run build -- --configuration=production
 
-      - name: Deploy na Vercel
-        uses: amondnet/vercel-action@v25
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
+          working-directory: '.'
