@@ -55,7 +55,33 @@ export class ExpenseService {
         headers,
       })
       .pipe(
-        tap(() => this.reloadExpensesSource.next()), // Emite evento após exclusão
+        tap(() => this.reloadExpensesSource.next()),
       );
+  }
+
+
+  getStaticsByMonthAndUserId(id: string, month: string): Observable<{ statics: number }> {
+    const token = this.authService.getToken();
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    const route = `${this.endpoint}/users/${id}/month/${month}`;
+    return this.apiService.get<{statics: number}>(route, {
+      headers,
+    });
+  }
+
+  getStaticsByMonthUserIdYear(id: string, month: string, year: number = 2025): Observable<Array<{  category: string, expense: number}>> {
+    const token = this.authService.getToken();
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    const route = `${this.endpoint}/users/${id}/month/${month}/year/${year}`;
+    const response =  this.apiService.get<Array<{ category: string, expense: number}>>(route, {
+      headers,
+    });
+    return response
   }
 }

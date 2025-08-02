@@ -11,12 +11,12 @@ import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { AuthService } from "../../../features/auth/auth.services";
 import { ToastrService } from "ngx-toastr";
-import { Router } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-header",
   standalone: true,
-  imports: [FaIconComponent, CommonModule],
+  imports: [FaIconComponent, CommonModule, RouterModule],
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.css",
 })

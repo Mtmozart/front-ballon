@@ -1,0 +1,30 @@
+<section>
+
+  <form [formGroup]="monthForm" class="inline-form">
+    <app-select
+      formControlName="month"
+      [options]="monthsOptions"
+      label="Mês"
+      placeholder="Selecione"
+    ></app-select>
+    <div>Total por mês: R$ {{ staticsByMonth | number:'1.2-2' }}</div>
+  </form>
+
+  <hr />
+
+  <form [formGroup]="categoryForm" class="inline-form">
+    <app-select
+      formControlName="categoryId"
+      [options]="categoryOptions"
+      label="Categoria"
+      placeholder="Selecione"
+    ></app-select>
+    <div>Total por categoria: R$ {{ staticsByCategory | number:'1.2-2' }}</div>
+  </form>
+
+    <div class="chart-container">
+    <h3>Visualização de Gastos por Categoria</h3>
+    <canvas id="MyChart"></canvas>
+  </div>
+
+</section>

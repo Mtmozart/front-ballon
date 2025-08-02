@@ -9,12 +9,15 @@
   padding: 5px 20px;
 }
 .logo {
-  padding: 20px;
-  width: 20px;
-  border: 1px solid red;
+  padding: 40px;
+  width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.logo img {
+  width: 5  0px;
+  height: 50px;
 }
 
 .navbar-content {
@@ -39,10 +42,14 @@
   font-size: 1.2rem;
 }
 
-.navbar-content li:hover {
+.navbar-content a,
+.navbar-content a:link,
+.navbar-content a:visited {
   cursor: pointer;
-  text-decoration: underline;
+  text-decoration: none;
+  color: var(--white);
 }
+
 
 button {
   background-color: var(--secodary-color);

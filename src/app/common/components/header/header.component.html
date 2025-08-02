@@ -1,14 +1,18 @@
 <header class="header-content">
   <div class="logo">
-    <a href="/"> Ballon </a>
+    <a href="/"> 
+      <img src="assets/ballon.png"  alt="Balloon icon">
+    </a>
+
   </div>
   <nav class="navbar-content">
     <ul>
-      <li><a routerLink="/">Home</a></li>
+      <li *ngIf="!authService.user() as user"> <a routerLink="/">Home</a></li>
       <li *ngIf="authService.user() as user"><a  routerLink="/profile">Perfil</a></li>
-      <li *ngIf="authService.user() as user"><a  routerLink="/expense">Gastos</a></li>
+      <li *ngIf="authService.user() as user"><a  routerLink="/expenses">Gastos</a></li>
+      <li *ngIf="authService.user() as user"><a  routerLink="/details">Detalhamento</a></li>
       <li *ngIf="authService.user() as user"><a (click)="logout()">Logout</a></li>
-      <li *ngIf="!authService.user()"><a>Login</a></li>
+      <li *ngIf="!authService.user()"><a routerLink="/auth">Login</a></li>
       <li>
         <button (click)="toggle()">
           <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>

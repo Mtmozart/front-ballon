@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { RegisterExpenseComponent } from "../register/register.component";
-import { ListAllExpensesByIdComponent } from "../list-all/list-all-expenses-by-id.component";
-import { TitleComponent } from "../../common/components/title/title.component";
+import { RegisterExpenseComponent } from "../../register/register.component";
+import { ListAllExpensesByIdComponent } from "../../list-all/list-all-expenses-by-id.component";
+import { TitleComponent } from "../../../common/components/title/title.component";
 
 @Component({
   standalone: true,
