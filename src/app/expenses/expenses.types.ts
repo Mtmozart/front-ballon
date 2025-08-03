@@ -13,7 +13,7 @@ enum Months {
   DECEMBER,
 }
 
-enum Categories {
+export enum Categories {
   FIXED_COSTS,
   COMFORT,
   GOALS,
@@ -39,3 +39,10 @@ export type Expense = {
   value: number;
   category: string;
 };
+
+
+export type CategoryAndValue = {
+  category: Categories
+  expense: number
+}
+

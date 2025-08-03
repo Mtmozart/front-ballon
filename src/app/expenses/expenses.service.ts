@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable, Subject, tap } from "rxjs";
 import { ApiService } from "../api/api.service";
 import { AuthService } from "../features/auth/auth.services";
-import { CreateExpense, Expense } from "./expenses.types";
+import { CategoryAndValue, CreateExpense, Expense } from "./expenses.types";
 
 @Injectable({
   providedIn: "root",
@@ -72,14 +72,14 @@ export class ExpenseService {
     });
   }
 
-  getStaticsByMonthUserIdYear(id: string, month: string, year: number = 2025): Observable<Array<{  category: string, expense: number}>> {
+  getStaticsByMonthUserIdYear(id: string, month: string, year: number = 2025): Observable<Array<CategoryAndValue>> {
     const token = this.authService.getToken();
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
     const route = `${this.endpoint}/users/${id}/month/${month}/year/${year}`;
-    const response =  this.apiService.get<Array<{ category: string, expense: number}>>(route, {
+    const response =  this.apiService.get<Array<CategoryAndValue>>(route, {
       headers,
     });
     return response
