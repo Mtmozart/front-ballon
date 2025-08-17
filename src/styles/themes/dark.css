@@ -1,12 +1,15 @@
 :root .dark-theme {
-  --background-color: #1a1a1a;
-  --text-color: #f0f0f0;
-  --primary-color: #204e4a;
-  --secondary-color: #297045;
-  --tertiary-color: #e9f1f7;
-  --quaternary-color: #5603ad;
-  --quinary-color: #4e039d;
-  --red: #fb5012;
+  --background-color: #031926;
+  --text-color: #3BC14A;
+  --primary-color: #031926;
+  --secondary-color: #053B06;
+  --tertiary-color: #EFF2EF;
+  --quaternary-color: #9450ff;
+;
+  --quinary-color: #002776;
+  --red: #c8102e;
   --black: #000;
   --white: #fff;
+  --gray: #EFF2EF;
 }
+

@@ -46,3 +46,12 @@ export type CategoryAndValue = {
   expense: number
 }
 
+
+export type ExpensesPaginate = {
+  content: Expense[];
+  last: boolean;
+  pageNumber: number;
+  pageSize: number;
+  totalElements: number;
+  totalPages: number
+}

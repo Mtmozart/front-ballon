@@ -9,7 +9,7 @@ import { ExpenseItemComponent } from "../../components/expense/expense.component
 import { MatIconModule } from "@angular/material/icon";
 import { inject } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-
+ import { of } from 'rxjs';
 @Component({
   selector: "app-list-all-expenses-by-id",
   standalone: true,
@@ -22,16 +22,19 @@ export class ListAllExpensesByIdComponent implements OnDestroy {
   private toastService = inject(ToastrService);
   private reloadSub?: Subscription;
 
+  public currentPage: number = 0;
+  public totalPages: number = 0;
+  public size: number = 10;
+
   constructor(
     private expenseService: ExpenseService,
-    private authService: AuthService,
+    private authService: AuthService
   ) {
     effect(() => {
       const user = this.authService.user();
       if (user?.id) {
         this.loadExpenses();
 
-        // Inscreve-se no evento de recarga para atualizar lista automaticamente
         this.reloadSub = this.expenseService.reloadExpenses$.subscribe(() => {
           this.loadExpenses();
         });
@@ -60,16 +63,35 @@ export class ListAllExpensesByIdComponent implements OnDestroy {
     });
   }
 
-  loadExpenses() {
-    const user = this.authService.user();
-    if (user?.id) {
-      this.expenses$ = this.expenseService
-        .findAllExpensesByUserId(user.id)
-        .pipe(
-          tap({
-            error: (err) => console.error("Erro ao buscar despesas:", err),
-          }),
-        );
-    }
+ 
+
+loadExpenses(page: number = 0) {
+  const user = this.authService.user();
+  if (!user?.id) return;
+
+  this.currentPage = page;
+
+  this.expenseService
+    .findAllExpensesByUserId(user.id, page, this.size)
+    .pipe(
+      tap({
+        next: (res) => {         
+          this.totalPages = res.totalPages;
+          this.expenses$ = of(res.content); 
+        },
+        error: (err) => console.error("Erro ao buscar despesas:", err),
+      })
+    )
+    .subscribe();
+}
+
+  nextPage() {
+    if (this.currentPage + 1 >= this.totalPages) return;
+    this.loadExpenses(this.currentPage + 1);
+  }
+
+  prevPage() {
+    if (this.currentPage <= 0) return;
+    this.loadExpenses(this.currentPage - 1);
   }
 }

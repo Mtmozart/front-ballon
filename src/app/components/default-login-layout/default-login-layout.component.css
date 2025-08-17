@@ -3,44 +3,39 @@
   --primary-color: #9450ff;
 }
 
-main {
+section {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
+  font-family: system-ui, sans-serif;
+  color: #333;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-main section {
-  height: 100%;
+.form-section {
+  padding: 0 35px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-main .main-section {
-  gap: 8px;
-  flex-grow: 1;
-  background-color: var(--gray-bg);
-}
-
-main .form-section {
-  flex-grow: 0.3;
-  padding: 0 35px;
-}
-
-main .form-section img {
-  margin-bottom: 30px;
-}
-
-main .form-section h2 {
+.form-section h2 {
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 45px;
+  color: var(--primary-color);
+  user-select: none;
+  text-align: center;
 }
 
-main .form-section .btn-wrapper {
+.btn-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,7 +44,7 @@ main .form-section .btn-wrapper {
   gap: 30px;
 }
 
-main .form-section .btn-wrapper .divider {
+.btn-wrapper .divider {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,15 +54,17 @@ main .form-section .btn-wrapper .divider {
   color: var(--gray-bg);
   font-weight: 400;
   text-transform: uppercase;
+  user-select: none;
 }
 
-main .form-section .btn-wrapper .divider div {
+.btn-wrapper .divider div {
   flex-grow: 1;
   height: 2px;
   background-color: var(--gray-bg);
+  border-radius: 1px;
 }
 
-main .form-section .btn-wrapper button {
+.btn-wrapper button {
   width: 100%;
   border-radius: 8px;
   font-size: 16px;
@@ -76,19 +73,33 @@ main .form-section .btn-wrapper button {
   background: transparent;
   padding: 12px 24px;
   cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
 }
 
-main .form-section .btn-wrapper button:disabled {
+.btn-wrapper button:disabled {
   opacity: 0.8;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
-main .form-section .btn-wrapper button.btn-primary {
+.btn-primary {
   background-color: var(--primary-color);
   color: white;
   box-shadow: 0px 8px 12px rgba(148, 64, 255, 0.2);
 }
 
-main .form-section .btn-wrapper button.btn-secondary {
+.btn-primary:hover:not(:disabled) {
+  background-color: #7a3edb;
+  box-shadow: 0px 10px 15px rgba(122, 62, 219, 0.3);
+}
+
+.btn-secondary {
   border: 1px solid var(--primary-color);
   color: var(--primary-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-color);
+  color: white;
 }

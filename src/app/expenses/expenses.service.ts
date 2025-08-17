@@ -1,9 +1,9 @@
 // expense.service.ts
 import { Injectable } from "@angular/core";
-import { Observable, Subject, tap } from "rxjs";
+import { map, Observable, Subject, tap } from "rxjs";
 import { ApiService } from "../api/api.service";
 import { AuthService } from "../features/auth/auth.services";
-import { CategoryAndValue, CreateExpense, Expense } from "./expenses.types";
+import { CategoryAndValue, CreateExpense, Expense, ExpensesPaginate } from "./expenses.types";
 
 @Injectable({
   providedIn: "root",
@@ -31,17 +31,19 @@ export class ExpenseService {
       .pipe(tap(() => this.reloadExpensesSource.next()));
   }
 
-  findAllExpensesByUserId(id: string): Observable<Expense[]> {
-    const token = this.authService.getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
-    const route = `${this.endpoint}/users/${id}`;
-    return this.apiService.get<Expense[]>(route, {
-      headers,
-    });
-  }
+  findAllExpensesByUserId(id: string, page: number = 0, size: number = 15): Observable<ExpensesPaginate> {
+  const token = this.authService.getToken();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+  
+  const route = `${this.endpoint}/users/${id}?page=${page}&size=${size}`;
+
+ return this.apiService.get<ExpensesPaginate>(route, { headers }).pipe(
+    map(response => response)
+  );
+ }
 
   deleteExpenseById(expenseId: string): Observable<void> {
     const token = this.authService.getToken();
@@ -58,7 +60,6 @@ export class ExpenseService {
         tap(() => this.reloadExpensesSource.next()),
       );
   }
-
 
   getStaticsByMonthAndUserId(id: string, month: string): Observable<{ statics: number }> {
     const token = this.authService.getToken();
