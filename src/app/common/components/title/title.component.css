@@ -4,7 +4,6 @@
 }
 .title-h2 {
   font-size: 2rem;
-  color: var(--primary-color);
 }
 .title-h3 {
   font-size: 1.75rem;
@@ -23,5 +22,5 @@
 .title-h5 {
   padding-bottom: 0.8rem;
   margin: 0;
-  color: var(--primary-color);
+  color: var(--text-color);
 }

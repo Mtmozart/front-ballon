@@ -1,0 +1,71 @@
+section {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inline-form {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--tertiary-color);
+}
+
+app-select {
+  flex: 1 1 200px;
+  min-width: 160px;
+}
+
+.inline-form > div {
+  font-weight: 600;
+  color: var(--primary-color);
+  padding: 7px 12px;
+  border: 1px solid var(--tertiary-color);
+  border-radius: 10px;
+  background-color: var(--white);
+}
+.chart-container {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;    
+  justify-content: flex-start;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.chart-container h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--primary-color);
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+  align-self: flex-start;
+}
+
+.chart-container canvas {
+  width: 35rem !important;
+  height: 35rem !important;
+}
+
+@media (max-width: 600px) {
+  .inline-form {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  app-select,
+  .inline-form > div {
+    width: 100%;
+  }
+
+  .chart-container canvas {
+    height: 240px !important;
+  }
+}
