@@ -5,17 +5,17 @@ import { AuthService } from "./auth.services";
 @Injectable({
   providedIn: "root",
 })
-export class AuthGuard implements CanActivate {
+export class PlubicGuard implements CanActivate {
   constructor(
     private auth: AuthService,
     private router: Router,
   ) {}
 
   canActivate(): boolean {
-    if (this.auth.isLoggedIn()) {
+    if (!this.auth.isLoggedIn()) {
       return true; 
     } else {
-      this.router.navigate(["/auth"]); 
+      this.router.navigate(["/profile"]); 
       return false; 
     }
   }

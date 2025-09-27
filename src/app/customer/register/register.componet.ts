@@ -13,6 +13,8 @@ import { DefaultLoginLayoutComponent } from "../../components/default-login-layo
 import { PrimaryInputComponent } from "../../components/primary-input/primary-input.component";
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { NgIf } from "@angular/common";
+import { LoadingComponent } from "../../common/components/loading/loading.componet";
+import { finalize } from 'rxjs/operators';
 
 interface IRegisterForm {
   name: FormControl;
@@ -64,17 +66,19 @@ export const passwordStrength: ValidatorFn = (
     ReactiveFormsModule,
     PrimaryInputComponent,
     NgIf,
+    LoadingComponent
   ],
   templateUrl: "./register.component.html",
   styleUrls: ["./register.component.css"],
 })
 export class RegisterConsumerComponent {
   registerForm!: FormGroup<IRegisterForm>;
-
+  public loading = false
   constructor(
     private service: CustomerService,
     private toastService: ToastrService,
     private router: Router,
+    
   ) {
     this.registerForm = new FormGroup(
       {
@@ -93,6 +97,7 @@ export class RegisterConsumerComponent {
     );
   }
   submit() {
+    this.loading = true
     const newCustomer: CreateConsumer = {
       name: this.registerForm.value.name,
       email: this.registerForm.value.email,
@@ -101,7 +106,13 @@ export class RegisterConsumerComponent {
 
     this.toastService.info("Criando usuário.");
 
-    this.service.register(newCustomer).subscribe({
+    this.service.register(newCustomer)
+    .pipe(
+      finalize(() => {
+        this.loading = false;
+      })
+    )
+    .subscribe({
       next: () => {
         this.toastService.success("Usuário criado com sucesso.");
         this.navigate();

@@ -96,8 +96,7 @@ export class DetailsExpensesComponent {
   }
 
   ngOnInit(): void {
-    this.createChart();
-    
+    this.createChart();    
     this.monthForm.get("month")?.valueChanges.subscribe((month) => {
       this.updateTotalByMonth(month);
     });

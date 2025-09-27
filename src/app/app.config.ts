@@ -11,7 +11,6 @@ import { provideAnimations } from "@angular/platform-browser/animations";
 import {
   provideHttpClient,
   withFetch,
-  withInterceptors,
 } from "@angular/common/http";
 
 export const appConfig: ApplicationConfig = {

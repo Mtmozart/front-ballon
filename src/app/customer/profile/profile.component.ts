@@ -4,21 +4,21 @@ import { AuthService } from "../../features/auth/auth.services";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { TitleComponent } from "../../common/components/title/title.component";
+import { LoadingComponent } from "../../common/components/loading/loading.componet";
 
 @Component({
   selector: "app-profile",
   standalone: true,
-  imports: [CommonModule, TitleComponent],
+  imports: [CommonModule, TitleComponent, LoadingComponent],
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.css"],
 })
 export class ProfileComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  readonly loading = this.authService.loading; 
   private toast = inject(ToastrService);
-
   readonly user = this.authService.user;
-  readonly loading = this.authService.loading;
 
   constructor() {
     effect(() => {
