@@ -9,7 +9,7 @@ import { ExpenseItemComponent } from "../../components/expense/expense.component
 import { MatIconModule } from "@angular/material/icon";
 import { inject } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
- import { of } from 'rxjs';
+import { of } from 'rxjs';
 @Component({
   selector: "app-list-all-expenses-by-id",
   standalone: true,

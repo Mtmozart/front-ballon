@@ -8,8 +8,6 @@ import { DetailsExpensesComponent } from "../../details/details-expense.componet
   standalone: true,
   imports: [
     DetailsExpensesComponent,
-    RegisterExpenseComponent,
-    ListAllExpensesByIdComponent,
     TitleComponent,
   ],
   styleUrls: ["register-expense-page.component.css"],

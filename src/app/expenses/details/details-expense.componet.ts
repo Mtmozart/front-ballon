@@ -46,7 +46,6 @@ const categoryLabels: Record<Categories, string> = {
     ReactiveFormsModule,
     SelectComponent,
     MatIconModule,
-    TitleComponent,
   ],
   providers: [provideNgxMask()],
   templateUrl: "./details-expense.component.html",
