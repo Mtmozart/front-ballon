@@ -1,14 +1,40 @@
+.login_container {
+  width: 100%;          
+  height: 100vh;        
+  display: flex;
+  box-sizing: border-box;
+}
+
+.cover {
+  width: 80%;            
+  height: 100%;         
+  background-image: url('../../../assets/feche-as-moedas-na-jarra.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  width: 20%;         
+  height: 100%;    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
 .form-control-container {
   padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
   border-radius: 1rem;
-  background: #fff;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .form-input {

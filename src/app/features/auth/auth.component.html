@@ -1,26 +1,40 @@
-<app-default-login-layout
-  title="Login"
-  primaryBtnText="Login"
-  secondaryBtnText="Registre-se"
-  (submit)="submitForm()"
-  (navigate)="navigate('/')"
-  [disablePrimaryBtn]="!loginForm.valid"
->
-  <form [formGroup]="loginForm">
-    <app-primary-input
-      formControlName="email"
-      inputName="email"
-      type="email"
-      label="E-mail"
-      placeholder="seu-email@gmail.com"
-    >
-    </app-primary-input>
-    <app-primary-input
-      formControlName="password"
-      inputName="password"
-      type="password"
-      label="Senha"
-    >
-    </app-primary-input>
-  </form>
-</app-default-login-layout>
+<div class="login_container">
+  <div class="cover">    
+  </div>
+
+  <div class="form">
+    <div class="form-control-container">
+      <app-default-login-layout
+        title="Login"
+        primaryBtnText="Login"
+        secondaryBtnText="Registre-se"
+        (submit)="submitForm()"
+        (navigate)="navigate('/')"
+        [disablePrimaryBtn]="!loginForm.valid"
+      >
+        <form [formGroup]="loginForm">
+          <app-primary-input
+            formControlName="email"
+            inputName="email"
+            type="email"
+            label="E-mail"
+            placeholder="seu-email@gmail.com"
+          >
+          </app-primary-input>
+          <app-primary-input
+            formControlName="password"
+            inputName="password"
+            type="password"
+            label="Senha"
+          >
+          </app-primary-input>
+        </form>
+      </app-default-login-layout>
+    </div>
+  </div>
+</div>
+
+
+
+<!--
+-->
