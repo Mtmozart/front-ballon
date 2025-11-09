@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class ApiService {
-  private readonly baseUrl = "http://localhost:8080";
+  private readonly baseUrl = "https://ballonfinance.com.br/";
   constructor(private http: HttpClient) {}
 
   get<T>(

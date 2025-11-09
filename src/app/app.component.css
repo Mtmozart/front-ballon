@@ -1,9 +1,9 @@
 main {
-  width: 100%;
+  width: 100vw;         
+  height: 88vh;      
+  max-height: 100vh;     
   box-sizing: border-box;
-  min-height: 88vh;
   display: flex;
-  justify-content: center;
-  padding: 10px;
-  overflow: auto;
+  flex-direction: column;
+  overflow: hidden;  
 }
