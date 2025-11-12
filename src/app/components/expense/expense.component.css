@@ -1,8 +1,9 @@
 .expense-item {
   padding: 1rem;
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
+  
 }
 .expense-header {
   display: flex;
@@ -12,7 +13,7 @@
 }
 .expense-header h2 {
   font-size: 1.2rem;
-  color: var(--primary-color);
+  color: var(--secondary-color);
   margin: 0;
   font-weight: 500;
 }
@@ -20,7 +21,7 @@
 .expense-value {
   font-size: var(--font-size-small);
   font-weight: bold;
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .expense-details {
@@ -28,5 +29,4 @@
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 0.5rem;
   font-size: var(--font-size-small);
-  color: #555;
 }

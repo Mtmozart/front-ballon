@@ -1,8 +1,17 @@
-.expenses__container {
+.chart_container {
   height: auto;
-  max-height: 100%;
   box-sizing: border-box;
   width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.chart__content {
+  display: flex;
+  align-items: center;
+  justify-content:  center;
+  flex-direction: column;
+  width: 80%;
 }
 
 app-title {
