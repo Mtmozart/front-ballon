@@ -9,17 +9,17 @@
   padding: 5px 20px;
 }
 .logo {
-  padding: 40px;
-  width: 40px;
+  padding: 1rem;
+  width: 10rem;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.logo img {
-  width: 5  0px;
-  height: 50px;
-}
+  color: #3BC14A;;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 2rem;
 
+}
 .navbar-content {
   width: 50%;
   height: 100%;

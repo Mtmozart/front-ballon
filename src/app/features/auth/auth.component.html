@@ -1,15 +1,11 @@
 <div class="login_container">
-  <div class="cover">    
-  </div>
-
-  <div class="form">
     <div class="form-control-container">
       <app-default-login-layout
         title="Login"
         primaryBtnText="Login"
         secondaryBtnText="Registre-se"
         (submit)="submitForm()"
-        (navigate)="navigate('/')"
+        (navigate)="navigate('/register')"
         [disablePrimaryBtn]="!loginForm.valid"
       >
         <form [formGroup]="loginForm">
@@ -31,10 +27,4 @@
         </form>
       </app-default-login-layout>
     </div>
-  </div>
 </div>
-
-
-
-<!--
--->

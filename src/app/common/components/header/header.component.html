@@ -1,13 +1,10 @@
 <header class="header-content">
   <div class="logo">
-    <a href="/"> 
-      <img src="assets/ballon.png"  alt="Balloon icon">
-    </a>
-
+      <p>BALLON</p>
   </div>
   <nav class="navbar-content">
     <ul>
-      <li *ngIf="!authService.user() as user"> <a routerLink="/">Home</a></li>
+      <li *ngIf="!authService.user() as user"> <a routerLink="/register">Cadastre-se</a></li>
       <li *ngIf="authService.user() as user"><a  routerLink="/profile">Perfil</a></li>
       <li *ngIf="authService.user() as user"><a  routerLink="/expenses">Gastos</a></li>
       <li *ngIf="authService.user() as user"><a  routerLink="/details">Detalhamento</a></li>

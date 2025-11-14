@@ -9,7 +9,7 @@ import { PlubicGuard } from "./features/auth/public.guard";
 
 export const routes: Routes = [
   {
-    path: "",
+    path: "register",
     canActivate: [PlubicGuard],
     component: RegisterConsumerComponent,
   },
