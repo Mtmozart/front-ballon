@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { HttpClient } from "@angular/common/http";
 import { Consumer, CreateConsumer } from "./customer.types";
 import { ApiService } from "../api/api.service";
 @Injectable({
@@ -10,7 +9,6 @@ export class CustomerService {
   private readonly endpoint = "consumers";
 
   constructor(
-    private http: HttpClient,
     private apiService: ApiService,
   ) {}
 

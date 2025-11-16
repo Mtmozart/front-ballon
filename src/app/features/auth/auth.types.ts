@@ -6,3 +6,8 @@ export interface ILogin {
 export interface ILoginResponse {
   token: string;
 }
+
+
+export type Token = {
+  token: string;
+};

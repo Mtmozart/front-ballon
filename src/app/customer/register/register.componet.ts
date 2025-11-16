@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import {
   FormControl,
   FormGroup,
@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { CustomerService } from "../customer.service";
-import { Consumer, CreateConsumer } from "../customer.types";
+import { CreateConsumer } from "../customer.types";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { DefaultLoginLayoutComponent } from "../../components/default-login-layout/default-login-layout.component";
@@ -14,7 +14,7 @@ import { PrimaryInputComponent } from "../../components/primary-input/primary-in
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { NgIf } from "@angular/common";
 import { LoadingComponent } from "../../common/components/loading/loading.componet";
-import { finalize } from 'rxjs/operators';
+import { AuthService } from "../../features/auth/auth.services";
 
 interface IRegisterForm {
   name: FormControl;
@@ -70,15 +70,18 @@ export const passwordStrength: ValidatorFn = (
   ],
   templateUrl: "./register.component.html",
   styleUrls: ["./register.component.css"],
+  providers: [CustomerService]
 })
-export class RegisterConsumerComponent {
+export class RegisterConsumerComponent implements OnInit{
+  private service = inject(CustomerService);
+  private toastService = inject(ToastrService);
+  private router = inject(Router);
+  private authService = inject(AuthService)
+  public accessToken!: string;
+
   registerForm!: FormGroup<IRegisterForm>;
   public loading = false
   constructor(
-    private service: CustomerService,
-    private toastService: ToastrService,
-    private router: Router,
-    
   ) {
     this.registerForm = new FormGroup(
       {
@@ -96,6 +99,13 @@ export class RegisterConsumerComponent {
       { validators: passwordMatchValidator },
     );
   }
+  ngOnInit(): void {
+     this.authService.getUserByToken().subscribe(user => {
+      if (user) {
+        this.router.navigate(["profile"]);
+      }
+  });
+  }
   submit() {
     this.loading = true
     const newCustomer: CreateConsumer = {
@@ -103,25 +113,17 @@ export class RegisterConsumerComponent {
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
     };
-
     this.toastService.info("Criando usuário.");
-
-    this.service.register(newCustomer)
-    .pipe(
-      finalize(() => {
+    try {
+       this.service.register(newCustomer)
+       this.toastService.success("Usuário criado com sucesso.");
+       this.navigate();
+    } catch (error) {
+      console.log(error)
+      this.toastService.error("Erro ao criar o usuário.");
+    } finally {
         this.loading = false;
-      })
-    )
-    .subscribe({
-      next: () => {
-        this.toastService.success("Usuário criado com sucesso.");
-        this.navigate();
-      },
-      error: (err) => {
-        console.error("Erro:", err);
-        this.toastService.error("Erro ao criar o usuário.");
-      },
-    });
+    }     
   }
 
   navigate() {
