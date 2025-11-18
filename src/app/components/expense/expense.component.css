@@ -1,20 +1,38 @@
 .expense-item {
   padding: 1rem;
-  width: 90%;
+  width: 20rem;
+  height: 15rem;
+  border-radius: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--white);
   display: flex;
-  flex-direction: column;
-  
-}
-.expense-header {
-  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.3rem;
 }
+
+.expense-header {
+  width: 100%;
+  display: flex;  
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .expense-header h2 {
   font-size: 1.2rem;
   color: var(--secondary-color);
-  margin: 0;
+  font-weight: 500; 
+   word-break: break-word;
+}
+
+.expense-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: var(--font-size-small);
+}
+
+.expense-details strong {
   font-weight: 500;
 }
 
@@ -24,9 +42,40 @@
   color: var(--secondary-color);
 }
 
-.expense-details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.5rem;
-  font-size: var(--font-size-small);
+
+.buttons-container {
+  padding-top: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-button {
+  box-sizing: border-box;
+  align-items: bottom;
+  justify-content: center;
+  height: auto;
+  color: #0056b3;
+  background-color: transparent;
+  border-radius: 4px;
+  padding-bottom: 0.5rem;
+  cursor: pointer;
+  font-size: 0.5rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: none;
+}
+
+.delete-button {
+  box-sizing: border-box;
+  align-items: bottom;
+  justify-content: center;
+  height: auto;
+  color: var(--red);
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.5rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: none;
 }

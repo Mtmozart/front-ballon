@@ -1,9 +1,11 @@
-import { Component, Input } from "@angular/core";
+import { Component, inject, Input } from "@angular/core";
 import { Expense } from "../../expenses/expenses.types";
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
   selector: "app-expense-item",
   standalone: true,
+  imports: [MatIconModule],
   templateUrl: "./expense.component.html",
   styleUrls: ["./expense.component.css"],
 })
@@ -55,4 +57,6 @@ export class ExpenseItemComponent {
       maximumFractionDigits: 2,
     }).format(this.expense.value);
   }
+
+  
 }
