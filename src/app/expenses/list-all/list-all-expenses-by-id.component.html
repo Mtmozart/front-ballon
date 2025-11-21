@@ -1,20 +1,11 @@
 
-<div *ngFor="let expense of expenses$ | async" class="expense-row">
-  <app-expense-item [expense]="expense"></app-expense-item>
-  <div class="buttons-container">
-    <button type="button" class="edit-button" mat-raised-button (click)="onEdit(expense)">
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button
-      type="button"
-      class="delete-button"
-      mat-raised-button
-      (click)="onDelete(expense.id)"
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
+<div class="expenses__conteiner">
+  <div *ngFor="let expense of expenses$ | async" class="expenses__content">
+    <app-expense-item [expense]="expense"></app-expense-item>
   </div>
 </div>
+
+
 
 <div class="pagination-buttons">
   <button (click)="prevPage()" [disabled]="currentPage === 0">Anterior</button>

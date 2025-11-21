@@ -1,7 +1,7 @@
 .expense-item {
   padding: 1rem;
-  width: 20rem;
-  height: 15rem;
+  width: 23rem;
+  height: 12rem;
   border-radius: 25px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   background-color: var(--white);
@@ -9,6 +9,7 @@
   flex-direction: row;
   box-sizing: border-box;
   justify-content: space-between;
+  align-items: center;
 }
 
 .expense-header {
@@ -47,6 +48,7 @@
   padding-top: 3rem;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .edit-button {

@@ -1,12 +1,12 @@
-.expense-row{
+.expenses__conteiner{
   display: flex;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 10px;
+  gap: 1rem;
+  justify-content: start;
+  flex-wrap: wrap;
 }
 
-app-expense-item {
-  flex-grow: 1;
+.expenses__content{
+  margin-bottom: 2rem;
 }
 
 .buttons-container {

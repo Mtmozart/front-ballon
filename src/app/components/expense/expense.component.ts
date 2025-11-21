@@ -1,6 +1,8 @@
 import { Component, inject, Input } from "@angular/core";
 import { Expense } from "../../expenses/expenses.types";
 import { MatIconModule } from "@angular/material/icon";
+import { ExpenseService } from "../../expenses/expenses.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-expense-item",
@@ -11,7 +13,8 @@ import { MatIconModule } from "@angular/material/icon";
 })
 export class ExpenseItemComponent {
   @Input() expense!: Expense;
-
+  private readonly expenseService = inject(ExpenseService)
+  private  readonly toastService  = inject(ToastrService)
   monthsPT: Record<string, string> = {
     JANUARY: "Janeiro",
     FEBRUARY: "Fevereiro",
@@ -58,5 +61,16 @@ export class ExpenseItemComponent {
     }).format(this.expense.value);
   }
 
+    onDelete(id: string) {
+    this.expenseService.deleteExpenseById(id).subscribe({
+      next: () => {
+        this.toastService.success("Despesa excluída com sucesso.");
+      },
+      error: (err: any) => {
+        console.error("Erro:", err);
+        this.toastService.error("Erro ao excluir despesa.");
+      },
+    });
+  }
   
 }

@@ -7,8 +7,6 @@ import { Observable, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
 import { ExpenseItemComponent } from "../../components/expense/expense.component";
 import { MatIconModule } from "@angular/material/icon";
-import { inject } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
 import { of } from 'rxjs';
 @Component({
   selector: "app-list-all-expenses-by-id",
@@ -19,7 +17,6 @@ import { of } from 'rxjs';
 })
 export class ListAllExpensesByIdComponent implements OnDestroy {
   expenses$: Observable<Expense[]> | undefined;
-  private toastService = inject(ToastrService);
   private reloadSub?: Subscription;
 
   public currentPage: number = 0;
@@ -45,25 +42,6 @@ export class ListAllExpensesByIdComponent implements OnDestroy {
   ngOnDestroy() {
     this.reloadSub?.unsubscribe();
   }
-
-  onEdit(expense: Expense) {
-    console.log("Editar despesa:", expense);
-  }
-
-  onDelete(id: string) {
-    this.expenseService.deleteExpenseById(id).subscribe({
-      next: () => {
-        this.toastService.success("Despesa excluída com sucesso.");
-        this.loadExpenses();
-      },
-      error: (err: any) => {
-        console.error("Erro:", err);
-        this.toastService.error("Erro ao excluir despesa.");
-      },
-    });
-  }
-
- 
 
 loadExpenses(page: number = 0) {
   const user = this.authService.user();
