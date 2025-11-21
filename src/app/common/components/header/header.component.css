@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  background-color: var(--tertiary-color);
+  background-color: var(--primary-color);
   padding: 5px 20px;
 }
 .logo {

@@ -1,13 +1,13 @@
 :root {
   --background-color: #EFF2EF;
-  --text-color: #031926;
-  --primary-color: #EFF2EF;
-  --secondary-color: #297045;
+  --text-color: #EFF2EF;
+  --primary-color: #03045E;
+  --secondary-color: #0fa3b1;
   --tertiary-color: #9450ff;
   --quaternary-color: #4e039d;
   --quinary-color: #002776;
-  --red: #fb5012;
+  --red: #ff220c;
   --black: #000;
-  --white: #fff;
+  --white: #fffffa;
   --gray: #EFF2EF;
 }
