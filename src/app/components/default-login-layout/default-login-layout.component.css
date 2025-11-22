@@ -5,7 +5,7 @@ section {
   justify-content: center;
   height: 100%;
   font-family: system-ui, sans-serif;
-  color: var(--quinary-color);
+  color: var(--primary-color);
   padding: 20px;
   box-sizing: border-box;
 }
@@ -25,7 +25,7 @@ section {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 45px;
-  color: var(--text-color);
+  color: var(--primary-color);
   user-select: none;
   text-align: center;
 }
@@ -60,7 +60,7 @@ section {
 }
 
 .btn-wrapper button {
-  width: 85%;
+  width: 100%;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 500;
@@ -76,12 +76,12 @@ section {
   opacity: 0.8;
   cursor: not-allowed;
   box-shadow: none;
-  background-color: var(--tertiary-color);
+  background-color: var(--gray);
 }
 
 .btn-primary  {
-  background-color: var(--tertiary-color) !important;
-  color: var(--primary-color);
+  background-color: var(--primary-color) !important;
+  color: var(--white);
   box-shadow: 0px 8px 12px rgba(148, 64, 255, 0.2);
   
 }
@@ -92,12 +92,11 @@ section {
 }
 
 .btn-secondary {
-  background-color: var(--secondary-color) !important;
-  border: 1px solid var(--quinary-color) !important;
-  color: var(--quaternary-color);
+  background-color: var(--tertiary-color) !important;
+  color: var(--white);
 }
 
 .btn-secondary:hover {
-  background-color: var(--primary-color);
+  background-color: var(--quaternary-color);
   color: var(white);
 }

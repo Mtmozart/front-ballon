@@ -47,16 +47,12 @@
 .navbar-content a:visited {
   cursor: pointer;
   text-decoration: none;
-  color: var(--text-color);
-}
-
-a:hover {
-  text-decoration: underline !important;  
+  color: var(--white);
 }
 
 button {
   background-color: var(--secodary-color);
-  color: var(--text-color);
+  color: var(--white);
   border: none;
   padding: 10px 20px;
   font-size: 1.2rem;

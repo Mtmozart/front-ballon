@@ -41,3 +41,8 @@
   width: 100%;            
   max-width: 500px; 
 }
+.error {
+  color: var(--red);
+  padding-bottom: 0.5rem;
+  max-height: 100%;
+}

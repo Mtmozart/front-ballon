@@ -1,7 +1,7 @@
 .expenses__conteiner{
   display: flex;
   gap: 1rem;
-  justify-content: start;
+  justify-content: center;
   flex-wrap: wrap;
 }
 

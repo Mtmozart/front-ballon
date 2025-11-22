@@ -2,7 +2,7 @@
   margin: 0 auto;
   padding: 20px;
   width: 100%;
-  max-width: 1250px;
+  max-width: 1500px;
   box-sizing: border-box;
 }
 
@@ -93,20 +93,20 @@ select.form-control {
 }
 
 .ng-invalid.ng-touched {
-  border-color: #dc3545;
+  border-color: var(--red);
 }
 
 .error-message {
-  color: #dc3545;
+  color: var(--red);
   font-size: 0.8rem;
   margin-top: 5px;
 }
 
 .ng-invalid.ng-touched {
-  border-color: #dc3545;
+  border-color: var(--red);
 }
 .error-message {
-  color: #dc3545;
+  color: var(--red);
   font-size: 0.8rem;
   margin-top: 5px;
 }

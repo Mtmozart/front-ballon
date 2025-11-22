@@ -21,7 +21,7 @@ export class ListAllExpensesByIdComponent implements OnDestroy {
 
   public currentPage: number = 0;
   public totalPages: number = 0;
-  public size: number = 10;
+  public size: number = 12;
 
   constructor(
     private expenseService: ExpenseService,
