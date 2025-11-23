@@ -4,7 +4,6 @@ import { CommonModule } from "@angular/common";
 import { SelectComponent } from "../../components/select/select.component";
 import { CategoryEnum } from "../register/register.types";
 import { MatIconModule } from "@angular/material/icon";
-import { TitleComponent } from "../../common/components/title/title.component";
 import { provideNgxMask } from "ngx-mask";
 import { ExpenseService } from "../expenses.service";
 import { AuthService } from "../../features/auth/auth.services";
@@ -107,40 +106,28 @@ export class DetailsExpensesComponent {
     this.chart.destroy();
   }
     this.chart = new Chart("MyChart", {
-      type: 'doughnut',
-      data: {
-        labels: this.labels,
-        datasets: [{
-          label: 'Gastos por Categoria',
-          data: this.spents,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
+    type: 'doughnut',
+    data: {
+      labels: this.labels,
+      datasets: [{
+        label: 'Gastos por Categoria',
+        data: this.spents,
+        backgroundColor: [
+          '#ff6384',
+          '#36a2eb',
+                        '#ffce56',
+                        '#4bc0c0',
+                        '#9966ff',
+                        '#ff9f40'
+                      ],
+                      borderColor: '#ffffff',
+                      borderWidth: 2
+                    }]
+                  },
+                  options: {
+                    responsive: true
+                  }
+        });
   }
 
   updateTotalByMonth(month: string): void {

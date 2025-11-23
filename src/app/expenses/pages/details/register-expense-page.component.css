@@ -4,6 +4,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  padding-top: 2rem;
 }
 
 .chart__content {
@@ -11,7 +12,7 @@
   align-items: center;
   justify-content:  center;
   flex-direction: column;
-  width: 80%;
+  width: 90%;
 }
 
 app-title {

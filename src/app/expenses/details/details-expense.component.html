@@ -1,4 +1,4 @@
-<section>
+<section class="chart__card__container">
   <form [formGroup]="monthForm" class="inline-form">
     <app-select
       formControlName="month"
@@ -6,7 +6,7 @@
       label="Mês"
       placeholder="Selecione"
     ></app-select>
-    <div>Total por mês: R$ {{ staticsByMonth | number:'1.2-2' }}</div>
+    <div class="statics__by__month">Total por mês: R$ {{ staticsByMonth | number:'1.2-2' }}</div>
   </form>
 
    <div class="chart-container">

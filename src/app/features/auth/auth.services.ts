@@ -1,5 +1,5 @@
 import { Injectable, signal, inject, PLATFORM_ID } from "@angular/core";
-import { Observable, tap, of, finalize } from "rxjs";
+import { Observable, tap, of, finalize, catchError } from "rxjs";
 import { ApiService } from "../../api/api.service";
 import { ConsumerResponse } from "../../customer/customer.types";
 import { Token } from "./auth.types";
@@ -41,8 +41,10 @@ export class AuthService {
 
 
  public getUserByToken(): Observable<ConsumerResponse | null> {
+  this.loading.set(true);
+
   if (!isPlatformBrowser(this.platformId)) {
-    return of(null); 
+    return of(null);
   }
 
   const token = localStorage.getItem("token");
@@ -52,19 +54,26 @@ export class AuthService {
     return of(null);
   }
 
-  this.loading.set(true);
-
   return this.apiService
     .get<ConsumerResponse>("consumers/me", {
       headers: { Authorization: `Bearer ${token}` },
     })
     .pipe(
       tap((user) => this.currentUser.set(user)),
+
+      catchError((error) => {
+        if (error.status === 401) {
+          localStorage.removeItem("token");
+          this.currentUser.set(null);
+        }
+        return of(null);
+      }),
+
       finalize(() => this.loading.set(false))
     );
 }
-    public getToken(): string | null {
-    
+
+    public getToken(): string | null {    
     return localStorage.getItem("token");
   }
 }
