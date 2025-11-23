@@ -1,7 +1,16 @@
+@font-face {
+  font-family: "Bungee Inline";
+  src: url("../assets/fonts/Bungee_Inline/BungeeInline-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
+  --font-logo: "Bungee Inline", sans-serif;
   --font-family: "Roboto Flex", sans-serif;
   --font-size: 1.2rem;
   --font-size-small: calc(var(--font-size) * 0.85);
   --font-size-medium: var(--font-size);
   --font-size-big: calc(var(--font-size) * 1.4);
 }
+
