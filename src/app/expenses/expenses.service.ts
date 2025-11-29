@@ -31,6 +31,20 @@ export class ExpenseService {
       .pipe(tap(() => this.reloadExpensesSource.next()));
   }
 
+  recurringExpenses(expense: CreateExpense): Observable<Expense[]> {
+
+    const token = this.authService.getToken();
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    const endpointToGenerateRecurring = this.endpoint + '/recurring'
+    return this.apiService
+      .post<Expense[]>(endpointToGenerateRecurring, expense, { headers })
+      .pipe(tap(() => this.reloadExpensesSource.next()));
+  }
+
   findAllExpensesByUserId(id: string, page: number = 0, size: number = 15): Observable<ExpensesPaginate> {
   const token = this.authService.getToken();
   const headers = {

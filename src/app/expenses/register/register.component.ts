@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, effect } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   AbstractControl,
   FormControl,
@@ -15,7 +15,7 @@ import { AuthService } from "../../features/auth/auth.services";
 import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
 import { MatIconModule } from "@angular/material/icon";
 import { ExpenseService } from "../expenses.service";
-import { CreateExpense, Expense } from "../expenses.types";
+import { CreateExpense } from "../expenses.types";
 import { CategoryEnum } from "./register.types";
 
 interface IRegisterExpense {
@@ -24,6 +24,10 @@ interface IRegisterExpense {
   title: FormControl;
   value: FormControl;
   categoryId: FormControl;
+
+  // ✔ ADICIONADO
+  isRecorrente: FormControl<boolean>;
+  recurring: FormControl<number | null>;
 }
 
 const categoryOptions = [
@@ -83,41 +87,54 @@ export class RegisterExpenseComponent {
   private authService = inject(AuthService);
   private toastService = inject(ToastrService);
   private expenseService = inject(ExpenseService);
-  private expenses: Expense[] = [];
+
   readonly user = this.authService.user;
   registerExpenseForm: FormGroup<IRegisterExpense>;
   categoriaOptions = categoryOptions;
-  monthsOptions = Object.entries(months).map(([value, label]) => ({
-    value,
-    label,
-  }));
+  monthsOptions = Object.entries(months).map(([value, label]) => ({ value, label }));
 
   constructor(private service: ExpenseService) {
-    this.registerExpenseForm = new FormGroup<IRegisterExpense>(
-      {
-        month: new FormControl("", [Validators.required]),
-        year: new FormControl("", [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(4),
-          Validators.pattern(/^\d+$/),
-        ]),
-        title: new FormControl("", [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(50),
-        ]),
-        value: new FormControl("", [Validators.required]),
-        categoryId: new FormControl("", [Validators.required]),
-      },
-      { validators: expenseValidator },
-    );
+  this.registerExpenseForm = new FormGroup<IRegisterExpense>(
+  {
+    month: new FormControl("", [Validators.required]),
+    year: new FormControl("", [
+      Validators.required,
+      Validators.minLength(4),
+      Validators.maxLength(4),
+      Validators.pattern(/^\d+$/),
+    ]),
+    title: new FormControl("", [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(50),
+    ]),
+    value: new FormControl("", [Validators.required]),
+    categoryId: new FormControl("", [Validators.required]),
 
-    effect(() => {
-      const user = this.user();
-      if (user) {
-        this.getCurrentUser();
+    // ✔ Checkbox com tipo certo, sem permitir null
+    isRecorrente: new FormControl<boolean>(false, { nonNullable: true }),
+
+    // ✔ Campo opcional, aceita null
+    recurring: new FormControl<number | null>(null),
+  },
+  { validators: expenseValidator }
+);
+
+
+    // ✔ habilitar / desabilitar recurring
+    this.registerExpenseForm.get('isRecorrente')?.valueChanges.subscribe((checked) => {
+      const recurringField = this.registerExpenseForm.get('recurring');
+
+      if (checked) {
+        recurringField?.enable();
+        recurringField?.setValidators([Validators.required, Validators.min(1)]);
+      } else {
+        recurringField?.disable();
+        recurringField?.clearValidators();
+        recurringField?.setValue(null);
       }
+
+      recurringField?.updateValueAndValidity();
     });
   }
 
@@ -127,40 +144,42 @@ export class RegisterExpenseComponent {
       this.toastService.error("Usuário não autenticado.");
       return;
     }
+
     const rawValue = this.registerExpenseForm.get("value")?.value;
-    let numericValue;
+    let numericValue = rawValue;
 
     if (typeof rawValue === "string") {
       numericValue = parseFloat(rawValue.replace(/[^\d,]/g, "")) || 0;
     }
-    numericValue = rawValue;
+
     if (this.registerExpenseForm.valid) {
+      const form = this.registerExpenseForm.getRawValue();
+
       const expense: CreateExpense = {
-        month: this.registerExpenseForm.value.month,
-        categoriaId: this.registerExpenseForm.value.categoryId,
+        month: form.month,
+        categoriaId: form.categoryId,
         consumerId: user.id,
-        title: this.registerExpenseForm.value.title,
+        title: form.title,
         value: numericValue,
-        year: this.registerExpenseForm.value.year,
+        year: form.year,
+        recurring: form.isRecorrente ? Number(form.recurring) : 0,
       };
+      if(expense.recurring && expense.recurring  > 0){
+        this.expenseService.recurringExpenses(expense).subscribe({
+          next: () => this.toastService.success("Despensa registrada com sucesso."),
+          error: () => this.toastService.error("Erro ao gerar despesa."),
+       });
+      }
+
       this.expenseService.register(expense).subscribe({
-        next: () => {
-          this.toastService.success("Despensa registrada com sucesso.");
-        },
-        error: (err) => {
-          console.error("Erro:", err);
-          this.toastService.error("Erro ao gerar despesa.");
-        },
+        next: () => this.toastService.success("Despensa registrada com sucesso."),
+        error: () => this.toastService.error("Erro ao gerar despesa."),
       });
-      this.registerExpenseForm.reset();
+
+      this.registerExpenseForm.reset({ isRecorrente: false });
     } else {
-      this.toastService.error(
-        "Por favor, preencha todos os campos corretamente.",
-      );
+      this.toastService.error("Por favor, preencha todos os campos corretamente.");
       this.registerExpenseForm.markAllAsTouched();
     }
-  }
-  private getCurrentUser() {
-    const user = this.user();
   }
 }

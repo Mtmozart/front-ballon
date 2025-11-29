@@ -29,6 +29,7 @@ export type CreateExpense = {
   value: number;
   consumerId: string;
   categoriaId: Categories;
+  recurring?: number;
 };
 
 export type Expense = {
