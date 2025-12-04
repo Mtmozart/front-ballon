@@ -168,13 +168,15 @@ export class RegisterExpenseComponent {
         this.expenseService.recurringExpenses(expense).subscribe({
           next: () => this.toastService.success("Despensa registrada com sucesso."),
           error: () => this.toastService.error("Erro ao gerar despesa."),
-       });
+       });     
+      } else {
+        this.expenseService.register(expense).subscribe({
+          next: () => this.toastService.success("Despensa registrada com sucesso."),
+          error: () => this.toastService.error("Erro ao gerar despesa."),
+        });
       }
 
-      this.expenseService.register(expense).subscribe({
-        next: () => this.toastService.success("Despensa registrada com sucesso."),
-        error: () => this.toastService.error("Erro ao gerar despesa."),
-      });
+      
 
       this.registerExpenseForm.reset({ isRecorrente: false });
     } else {

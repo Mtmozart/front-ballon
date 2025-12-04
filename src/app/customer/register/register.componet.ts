@@ -107,25 +107,31 @@ export class RegisterConsumerComponent implements OnInit{
   });
   }
   submit() {
-    this.loading = true
-    const newCustomer: CreateConsumer = {
-      name: this.registerForm.value.name,
-      email: this.registerForm.value.email,
-      password: this.registerForm.value.password,
-    };
-    this.toastService.info("Criando usuário.");
-    try {
-       this.service.register(newCustomer)
-       this.toastService.success("Usuário criado com sucesso.");
-       this.navigate();
-    } catch (error) {
-      console.log(error)
-      this.toastService.error("Erro ao criar o usuário.");
-    } finally {
-        this.loading = false;
-    }     
-  }
+  this.loading = true;
 
+  const newCustomer: CreateConsumer = {
+    name: this.registerForm.value.name!,
+    email: this.registerForm.value.email!,
+    password: this.registerForm.value.password!,
+  };
+
+  this.toastService.info("Criando usuário.");
+
+  this.service.register(newCustomer).subscribe({
+    next: (res) => {
+      console.log(res);
+      this.toastService.success("Usuário criado com sucesso.");
+      this.navigate();
+    },
+    error: (err) => {
+      console.log(err);
+      this.toastService.error("Erro ao criar o usuário.");
+    },
+    complete: () => {
+      this.loading = false;
+    }
+  });
+}
   navigate() {
     this.router.navigate(["/auth"]);
   }
