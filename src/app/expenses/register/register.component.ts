@@ -24,8 +24,6 @@ interface IRegisterExpense {
   title: FormControl;
   value: FormControl;
   categoryId: FormControl;
-
-  // ✔ ADICIONADO
   isRecorrente: FormControl<boolean>;
   recurring: FormControl<number | null>;
 }

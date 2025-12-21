@@ -1,12 +1,24 @@
+<ng-container *ngIf="(expenses$ | async) as expenses">
+  
+  <div *ngIf="expenses.length > 0; else noExpenses">
+    <div class="expenses__conteiner">
+      <div *ngFor="let expense of expenses" class="expenses__content">
+        <app-expense-item [expense]="expense"></app-expense-item>
+      </div>
+    </div>
 
-<div class="expenses__conteiner">
-  <div *ngFor="let expense of expenses$ | async" class="expenses__content">
-    <app-expense-item [expense]="expense"></app-expense-item>
+    <div class="pagination-buttons">
+      <button (click)="prevPage()" [disabled]="currentPage === 0">Anterior</button>
+      <button (click)="nextPage()" [disabled]="currentPage + 1 >= totalPages">
+        Próxima
+      </button>
+    </div>
   </div>
-</div>
 
+</ng-container>
 
-<div class="pagination-buttons">
-  <button (click)="prevPage()" [disabled]="currentPage === 0">Anterior</button>
-  <button (click)="nextPage()" [disabled]="currentPage + 1 >= totalPages">Próxima</button>
-</div>
+<ng-template #noExpenses>
+  <div class="expense__no__content">
+   <p class="no-expenses">Nenhuma despesa registrada.</p>
+  </div>
+</ng-template>

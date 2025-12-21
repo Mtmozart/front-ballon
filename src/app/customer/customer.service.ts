@@ -16,15 +16,34 @@ export class CustomerService {
     return this.apiService.post(this.endpoint, customer);
   }
 
-  getById(id: string): Observable<Consumer> {
-    return this.apiService.get(`${this.endpoint}/${id}`);
+ getById(token: string): Observable<Consumer> {
+  return this.apiService.get(`${this.endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
   }
 
-  update(id: string, customer: Consumer): Observable<Consumer> {
-    return this.apiService.put<Consumer>(`${this.endpoint}/${id}`, customer);
+  update(customer: Consumer, token: string): Observable<Consumer> {
+    return this.apiService.put<Consumer>(
+      `${this.endpoint}`,
+      customer,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
   }
 
-  delete(id: string): Observable<void> {
-    return this.apiService.delete<void>(`${this.endpoint}/${id}`);
-  }
+  delete(token: string): Observable<void> {
+  return this.apiService.delete<void>(
+    `${this.endpoint}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+}
 }

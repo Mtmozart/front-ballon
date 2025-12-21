@@ -5,8 +5,6 @@ import { ConsumerResponse } from "../../customer/customer.types";
 import { Token } from "./auth.types";
 import { isPlatformBrowser } from "@angular/common";
 
-
-
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private currentUser = signal<ConsumerResponse | null>(null);
@@ -32,11 +30,10 @@ export class AuthService {
     }
   }
   public isLoggedIn(): boolean {
-  if (!isPlatformBrowser(this.platformId)) {
-    return false;
+  if (isPlatformBrowser(this.platformId)) {
+    return !!localStorage.getItem("token");
   }
-
-  return !!localStorage.getItem("token");
+  return true;
 }
 
 
@@ -60,7 +57,6 @@ export class AuthService {
     })
     .pipe(
       tap((user) => this.currentUser.set(user)),
-
       catchError((error) => {
         if (error.status === 401) {
           localStorage.removeItem("token");
@@ -68,7 +64,7 @@ export class AuthService {
         }
         return of(null);
       }),
-
+      
       finalize(() => this.loading.set(false))
     );
 }

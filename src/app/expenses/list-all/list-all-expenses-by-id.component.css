@@ -96,3 +96,9 @@
   border-color: #cccccc;
   cursor: not-allowed;
 }
+
+.expense__no__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

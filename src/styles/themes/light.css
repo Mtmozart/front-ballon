@@ -1,14 +1,14 @@
-:root {
-  --background-color: #ECFAFC;
-  --background-card-color: #fff;
-  --text-color: #002776;
-  --primary-color: #03045E;
-  --secondary-color: #0fa3b1;
-  --tertiary-color: #9450ff;
-  --quaternary-color: #4e039d;
-  --quinary-color: #002776;
-  --red: #ff220c;
-  --black: #000;
-  --white: #fffffa;
-  --gray: #EFF2EF;
-}
+  :root {
+    --background-color: #ECFAFC;
+    --background-card-color: #fff;
+    --text-color: #002776;
+    --primary-color: #03045E;
+    --secondary-color: #0fa3b1;
+    --tertiary-color: #9450ff;
+    --quaternary-color: #4e039d;
+    --quinary-color: #002776;
+    --red: #ff220c;
+    --black: #000;
+    --white: #fffffa;
+    --gray: #EFF2EF;
+  }
