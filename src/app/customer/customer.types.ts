@@ -15,4 +15,6 @@ export type ConsumerResponse = {
   id: string;
   name: string;
   email: string;
+  isConfirmed: boolean;
+  cell_phone: string;
 };

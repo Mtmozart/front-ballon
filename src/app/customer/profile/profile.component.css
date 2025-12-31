@@ -5,3 +5,11 @@
   align-items: center;
   width: 100%;
 }
+
+.user-profile{
+  width: 40rem;
+  display: flex;
+  flex-direction: column;
+  max-width: 40rem;
+  line-height: 1.5rem;
+}
