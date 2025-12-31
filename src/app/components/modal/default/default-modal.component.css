@@ -1,26 +1,31 @@
-.title-h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-}
-.title-h2 {
-  font-size: 2rem;
-}
-.title-h3 {
-  font-size: 1.75rem;
-}
-.title-h4 {
-  font-size: 1.5rem;
-}
-.title-h5 {
-  font-size: 1.25rem;
+.modal-section {
+  width: 60rem;
+  min-height: 20vh;
+  max-height: 50%;
+  border-radius: 20px;
+  position: fixed;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--background-card-color);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  padding: 20px;
+  z-index: 1000;
+  overflow-y: auto;
 }
 
-.title-h1,
-.title-h2,
-.title-h3,
-.title-h4,
-.title-h5 {
-  padding-bottom: 0.8rem;
-  margin: 0;
-  color: var(--text-color);
+
+.modal-title{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--text-color);
+}
+.content {
+  width: 100%;
+  height: auto;
+  padding: 10px 0;
+}
+mat-icon {
+  cursor: pointer;
 }

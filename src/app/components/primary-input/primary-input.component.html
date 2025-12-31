@@ -1,27 +1,24 @@
-<div class="input-wrapper">
-  <label [for]="inputName">{{ label }}</label>
-  <div class="input-content">
-    <input
-      *ngIf="mask; else noMaskInput"
-      [type]="type"
-      [placeholder]="placeholder"
-      [value]="value"
-      (input)="onInput($event)"
-      [id]="inputName"
-      [mask]="mask"
-      [prefix]="prefix"
-      [thousandSeparator]="thousandSeparator"
-      [decimalMarker]="decimalMarker"
-    />
+<input
+  *ngIf="mask; else noMaskInput"
+  [type]="type"
+  [placeholder]="placeholder"
+  [value]="value"
+  (input)="onInput($event)"
+  [id]="inputName"
+  [mask]="mask"
+  [prefix]="prefix"
+  [thousandSeparator]="thousandSeparator"
+  [decimalMarker]="decimalMarker"
+  [attr.maxlength]="maxLength ?? null"
+/>
 
-    <ng-template #noMaskInput>
-      <input
-        [type]="type"
-        [placeholder]="placeholder"
-        [value]="value"
-        (input)="onInput($event)"
-        [id]="inputName"
-      />
-    </ng-template>
-   </div>
-</div>
+<ng-template #noMaskInput>
+  <input
+    [type]="type"
+    [placeholder]="placeholder"
+    [value]="value"
+    (input)="onInput($event)"
+    [id]="inputName"
+    [attr.maxlength]="maxLength ?? null"
+  />
+</ng-template>

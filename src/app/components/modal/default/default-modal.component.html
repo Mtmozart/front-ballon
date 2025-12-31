@@ -1,0 +1,10 @@
+<section class="modal-section">
+  <div class="modal-title">
+    <app-title size="h3" [title]="title"></app-title>
+    <mat-icon (click)="closeModal()">close</mat-icon>
+  </div>
+
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+</section>

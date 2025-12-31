@@ -1,20 +1,37 @@
 <section class="profile-container">
   <app-loading *ngIf="loading()"></app-loading>
+
   <div *ngIf="!loading() && user()" class="user-profile">
     <app-title size="h1" title="Perfil"></app-title>
-    <div class="user-info">
-      <div>
-        <p><strong>Nome:</strong> {{ user()?.name }}</p>
-        <p><strong>Email:</strong> {{ user()?.email }}
-        <p><strong>Telefone:</strong> {{ user()?.cell_phone ?  user()?.cell_phone : "Não registrado."}}
-        <p *ngIf="user()?.isConfirmed">Usuário verificado</p>
-        <p *ngIf="!user()?.isConfirmed">
-        É necessário que verifique sua conta para usar o cadastro por número, pode fazer isso clicando aqui
-        </p>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="!loading() && !user()" class="no-user">
-    <p>Nenhum usuário autenticado encontrado.</p>
+
+    <p><strong>Nome:</strong> {{ user()?.name }}</p>
+    <p><strong>Email:</strong> {{ user()?.email }}</p>
+
+    <p *ngIf="!user()?.isConfirmed">
+      É necessário verificar sua conta,
+      <span style="cursor:pointer; color: blue" (click)="openModal()">
+        clique aqui
+      </span>
+    </p>
   </div>
 </section>
+
+<default-modal
+  *ngIf="isModalOpen"
+  title="Valide sua conta"
+  (close)="closeModal()"
+>
+  <p>Digite o código enviado para seu e-mail</p>
+
+  <form [formGroup]="verificationForm" (ngSubmit)="submitVerification()">
+    <app-primary-input
+      formControlName="verificationCode"
+      label="Código de verificação"
+      inputName="verificationCode"
+      placeholder="XXXXXX"
+      [maxLength]="6"
+    ></app-primary-input>
+
+    <button type="submit">Enviar</button>
+  </form>
+</default-modal>

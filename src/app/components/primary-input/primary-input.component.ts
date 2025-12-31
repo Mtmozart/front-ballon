@@ -31,6 +31,7 @@ export class PrimaryInputComponent implements ControlValueAccessor {
   @Input() inputName: string = "";
 
   // Máscaras e opções opcionais
+  @Input() maxLength?: number;
   @Input() mask?: string;
   @Input() decimalMarker: "." | "," | [".", ","] = ",";
   @Input() thousandSeparator: "." | "," = ".";
