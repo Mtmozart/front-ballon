@@ -21,7 +21,13 @@
   title="Valide sua conta"
   (close)="closeModal()"
 >
-  <p>Digite o código enviado para seu e-mail</p>
+  <p>Para solicitar um novo código, <button
+  type="button"
+  class="link-button"
+  (click)="sendCodeVerificationByEmail()">
+  clique aqui!
+</button>
+ Após, digite o código enviado para seu e-mail.</p>
 
   <form [formGroup]="verificationForm" (ngSubmit)="submitVerification()">
     <app-primary-input

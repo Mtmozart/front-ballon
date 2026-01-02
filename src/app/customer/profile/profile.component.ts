@@ -64,7 +64,7 @@ export class ProfileComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  submitVerification() {
+  sendCodeVerificationByEmail() {
     const token = this.authService.getToken()
     if(token) {
       this.customerService.generateCodeToValidadeAccount(token).subscribe({
@@ -77,4 +77,26 @@ export class ProfileComponent implements OnInit {
       })
     }
   }
+
+ submitVerification() {
+  const token = this.authService.getToken();
+  const code = this.verificationForm.get('verificationCode')?.value;
+
+    if (!code) {
+      this.toast.error('Informe o código de verificação.');
+      return;
+    }
+
+    if (token) {
+      this.customerService.validateCode(token, code).subscribe({
+        next: () => {
+          this.toast.success("Conta validada com sucesso.");
+        },
+        error: () => {
+          this.toast.error("Erro ao validar sua conta.");
+        }
+      });
+    }
+  }
+
 }

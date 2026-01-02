@@ -46,11 +46,23 @@ export class CustomerService {
       }
     );
   }
-  ///generate-new-code
+  //TODO: MUDAR PARA GET
   generateCodeToValidadeAccount(token: string): Observable<void> {
     return this.apiService.put(
       `${this.endpoint}/generate-new-code`,
-      {}, // body obrigatório
+      {}, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
+
+  validateCode(token: string, code: string): Observable<void> {
+    return this.apiService.put(
+      `${this.endpoint}/validate`,
+      {code}, 
       {
         headers: {
           Authorization: `Bearer ${token}`
