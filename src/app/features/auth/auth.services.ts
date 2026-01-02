@@ -70,6 +70,9 @@ export class AuthService {
 }
 
     public getToken(): string | null {    
+     if (!isPlatformBrowser(this.platformId)) {
+      return null;
+     }
     return localStorage.getItem("token");
   }
 }

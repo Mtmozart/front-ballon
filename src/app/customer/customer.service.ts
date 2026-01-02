@@ -37,13 +37,26 @@ export class CustomerService {
   }
 
   delete(token: string): Observable<void> {
-  return this.apiService.delete<void>(
-    `${this.endpoint}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
+    return this.apiService.delete<void>(
+      `${this.endpoint}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    }
-  );
-}
+    );
+  }
+  ///generate-new-code
+  generateCodeToValidadeAccount(token: string): Observable<void> {
+    return this.apiService.put(
+      `${this.endpoint}/generate-new-code`,
+      {}, // body obrigatório
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
+
 }

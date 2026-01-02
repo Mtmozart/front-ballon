@@ -10,6 +10,7 @@ import { LoadingComponent } from "../../common/components/loading/loading.compon
 import { DefautModalComponent } from "../../components/modal/default/default-modal.component";
 import { PrimaryInputComponent } from "../../components/primary-input/primary-input.component";
 import { ConsumerResponse } from "../customer.types";
+import { CustomerService } from "../customer.service";
 
 @Component({
   selector: "app-profile",
@@ -30,6 +31,7 @@ export class ProfileComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private toast = inject(ToastrService);
+  private readonly customerService= inject(CustomerService)
 
   isModalOpen = false;
 
@@ -63,6 +65,16 @@ export class ProfileComponent implements OnInit {
   }
 
   submitVerification() {
-    console.log(this.verificationForm.value);
+    const token = this.authService.getToken()
+    if(token) {
+      this.customerService.generateCodeToValidadeAccount(token).subscribe({
+        next: () => {
+          this.toast.success("Código enviado via e-mail.")          
+        },
+        error: () => {
+        this.toast.error("Erro ao enviar o e-mail.");
+        }
+      })
+    }
   }
 }
