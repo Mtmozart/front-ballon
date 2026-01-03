@@ -9,7 +9,7 @@
 
     <p *ngIf="!user()?.isConfirmed">
       É necessário verificar sua conta,
-      <span style="cursor:pointer; color: blue" (click)="openModal()">
+      <span style="cursor: pointer; color: blue" (click)="openModal()">
         clique aqui
       </span>
     </p>
@@ -21,15 +21,19 @@
   title="Valide sua conta"
   (close)="closeModal()"
 >
-  <p>Para solicitar um novo código, <button
-  type="button"
-  class="link-button"
-  (click)="sendCodeVerificationByEmail()">
-  clique aqui!
-</button>
- Após, digite o código enviado para seu e-mail.</p>
+  <p>
+    Para solicitar um novo código,
+    <button
+      type="button"
+      class="link-button"
+      (click)="sendCodeVerificationByEmail()"
+    >
+      clique aqui!
+    </button>
+    Após, digite o código enviado para seu e-mail.
+  </p>
 
-  <form [formGroup]="verificationForm" (ngSubmit)="submitVerification()">
+   <form [formGroup]="verificationForm" (ngSubmit)="submitVerification()">
     <app-primary-input
       formControlName="verificationCode"
       label="Código de verificação"
@@ -37,7 +41,21 @@
       placeholder="XXXXXX"
       [maxLength]="6"
     ></app-primary-input>
+     <div
+      *ngIf="
+        verificationForm.get('verificationCode')?.invalid &&
+        (
+          verificationForm.get('verificationCode')?.dirty ||
+          verificationForm.get('verificationCode')?.touched
+        )
+      "
+        class="error"
+    >
+      Código inválido.
+    </div>
+    <button type="submit" [disabled]="verificationForm.invalid">
+      Enviar
+    </button>
 
-    <button type="submit">Enviar</button>
   </form>
 </default-modal>

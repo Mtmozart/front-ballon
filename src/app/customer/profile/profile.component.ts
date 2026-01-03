@@ -2,7 +2,7 @@ import { Component, inject, signal, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
 import { AuthService } from "../../features/auth/auth.services";
 import { TitleComponent } from "../../common/components/title/title.component";
@@ -11,6 +11,7 @@ import { DefautModalComponent } from "../../components/modal/default/default-mod
 import { PrimaryInputComponent } from "../../components/primary-input/primary-input.component";
 import { ConsumerResponse } from "../customer.types";
 import { CustomerService } from "../customer.service";
+
 
 @Component({
   selector: "app-profile",
@@ -21,7 +22,7 @@ import { CustomerService } from "../customer.service";
     TitleComponent,
     LoadingComponent,
     DefautModalComponent,
-    PrimaryInputComponent
+    PrimaryInputComponent,
   ],
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.css"],
@@ -36,8 +37,13 @@ export class ProfileComponent implements OnInit {
   isModalOpen = false;
 
   verificationForm = new FormGroup({
-    verificationCode: new FormControl('')
-  });
+  verificationCode: new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+    Validators.maxLength(6)
+  ])
+});
+
 
   readonly loading = this.authService.loading;
   readonly user = signal<ConsumerResponse | null>(null);

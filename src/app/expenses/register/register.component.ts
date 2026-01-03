@@ -91,7 +91,7 @@ export class RegisterExpenseComponent {
   categoriaOptions = categoryOptions;
   monthsOptions = Object.entries(months).map(([value, label]) => ({ value, label }));
 
-  constructor(private service: ExpenseService) {
+  constructor() {
   this.registerExpenseForm = new FormGroup<IRegisterExpense>(
   {
     month: new FormControl("", [Validators.required]),
@@ -109,17 +109,13 @@ export class RegisterExpenseComponent {
     value: new FormControl("", [Validators.required]),
     categoryId: new FormControl("", [Validators.required]),
 
-    // ✔ Checkbox com tipo certo, sem permitir null
     isRecorrente: new FormControl<boolean>(false, { nonNullable: true }),
 
-    // ✔ Campo opcional, aceita null
     recurring: new FormControl<number | null>(null),
   },
   { validators: expenseValidator }
 );
 
-
-    // ✔ habilitar / desabilitar recurring
     this.registerExpenseForm.get('isRecorrente')?.valueChanges.subscribe((checked) => {
       const recurringField = this.registerExpenseForm.get('recurring');
 
@@ -173,9 +169,6 @@ export class RegisterExpenseComponent {
           error: () => this.toastService.error("Erro ao gerar despesa."),
         });
       }
-
-      
-
       this.registerExpenseForm.reset({ isRecorrente: false });
     } else {
       this.toastService.error("Por favor, preencha todos os campos corretamente.");
