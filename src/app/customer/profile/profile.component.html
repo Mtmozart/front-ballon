@@ -1,19 +1,78 @@
 <section class="profile-container">
   <app-loading *ngIf="loading()"></app-loading>
 
-  <div *ngIf="!loading() && user()" class="user-profile">
+  <div *ngIf="!loading() && user() && !isEditing()" class="user-profile">
     <app-title size="h1" title="Perfil"></app-title>
 
     <p><strong>Nome:</strong> {{ user()?.name }}</p>
     <p><strong>Email:</strong> {{ user()?.email }}</p>
+    <p *ngIf="user()?.cell_phone">
+      <strong>Telefone:</strong> {{ user()?.cell_phone }}
+    </p>
 
-    <p *ngIf="!user()?.isConfirmed">
+    <button class="primary-btn" (click)="enableEdit()">
+      Editar perfil
+    </button>
+
+    <p *ngIf="!user()?.isConfirmed" class="warning">
       É necessário verificar sua conta,
-      <span style="cursor: pointer; color: blue" (click)="openModal()">
-        clique aqui
-      </span>
+      <span class="link" (click)="openModal()">clique aqui</span>
     </p>
   </div>
+
+  <form
+    *ngIf="!loading() && isEditing()"
+    [formGroup]="profileForm"
+    class="edit-form"
+  >
+    <app-title size="h2" title="Editar perfil"></app-title>
+
+    <app-primary-input
+      formControlName="name"
+      label="Nome"
+      inputName="name"
+    ></app-primary-input>
+
+    <app-primary-input
+      formControlName="email"
+      label="Email"
+      inputName="email"
+    ></app-primary-input>
+
+    <app-primary-input
+      formControlName="passowrd"
+      label="Nova senha"
+      type="password"
+      inputName="password"
+      placeholder="Deixe em branco para não alterar"
+    ></app-primary-input>
+
+    <app-primary-input
+      formControlName="cell_phone"
+      label="Telefone"
+      inputName="cell_phone"
+      placeholder="(11) 99999-9999"
+    ></app-primary-input>
+
+    <div class="actions">
+      <button
+        type="button"
+        class="secondary-btn"
+        (click)="cancelEdit()"
+      >
+        Cancelar
+      </button>
+
+      <button
+        type="button"
+        class="primary-btn"
+        [disabled]="profileForm.invalid"
+        (click)="saveProfile()"
+      >
+        Salvar alterações
+      </button>
+    </div>
+  </form>
 </section>
 
 <default-modal
@@ -33,7 +92,7 @@
     Após, digite o código enviado para seu e-mail.
   </p>
 
-   <form [formGroup]="verificationForm" (ngSubmit)="submitVerification()">
+  <form [formGroup]="verificationForm" (ngSubmit)="submitVerification()">
     <app-primary-input
       formControlName="verificationCode"
       label="Código de verificação"
@@ -41,21 +100,20 @@
       placeholder="XXXXXX"
       [maxLength]="6"
     ></app-primary-input>
-     <div
+
+    <div
       *ngIf="
         verificationForm.get('verificationCode')?.invalid &&
-        (
-          verificationForm.get('verificationCode')?.dirty ||
-          verificationForm.get('verificationCode')?.touched
-        )
+        (verificationForm.get('verificationCode')?.dirty ||
+          verificationForm.get('verificationCode')?.touched)
       "
-        class="error"
+      class="error"
     >
       Código inválido.
     </div>
+
     <button type="submit" [disabled]="verificationForm.invalid">
       Enviar
     </button>
-
   </form>
 </default-modal>

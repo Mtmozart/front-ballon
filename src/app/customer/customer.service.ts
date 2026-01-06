@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Consumer, CreateConsumer } from "./customer.types";
+import { Consumer, CreateConsumer, UpdateConsumer } from "./customer.types";
 import { ApiService } from "../api/api.service";
 @Injectable({
   providedIn: "root",
@@ -24,17 +24,18 @@ export class CustomerService {
   });
   }
 
-  update(customer: Consumer, token: string): Observable<Consumer> {
-    return this.apiService.put<Consumer>(
-      `${this.endpoint}`,
-      customer,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+  update(customer: UpdateConsumer, token: string): Observable<Consumer> {
+  return this.apiService.put<Consumer>(
+    `${this.endpoint}`,
+    customer,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    );
-  }
+    }
+  );
+}
+
 
   delete(token: string): Observable<void> {
     return this.apiService.delete<void>(
