@@ -6,6 +6,7 @@
 
     <p><strong>Nome:</strong> {{ user()?.name }}</p>
     <p><strong>Email:</strong> {{ user()?.email }}</p>
+
     <p *ngIf="user()?.cell_phone">
       <strong>Telefone:</strong> {{ user()?.cell_phone }}
     </p>
@@ -48,6 +49,21 @@
     ></app-primary-input>
 
     <app-primary-input
+      formControlName="passwordConfirm"
+      label="Confirme a nova senha"
+      type="password"
+      inputName="confirmPassword"
+    ></app-primary-input>
+
+    <div *ngIf="profileForm.errors?.['passwordWeak']" class="error">
+      A senha deve conter ao menos 6 caracteres, uma letra maiúscula e uma minúscula.
+    </div>
+
+    <div *ngIf="profileForm.errors?.['passwordMismatch']" class="error">
+      As senhas não conferem.
+    </div>
+
+    <app-primary-input
       formControlName="cell_phone"
       label="Telefone"
       inputName="cell_phone"
@@ -55,11 +71,7 @@
     ></app-primary-input>
 
     <div class="actions">
-      <button
-        type="button"
-        class="secondary-btn"
-        (click)="cancelEdit()"
-      >
+      <button type="button" class="secondary-btn" (click)="cancelEdit()">
         Cancelar
       </button>
 
@@ -89,7 +101,6 @@
     >
       clique aqui!
     </button>
-    Após, digite o código enviado para seu e-mail.
   </p>
 
   <form [formGroup]="verificationForm" (ngSubmit)="submitVerification()">

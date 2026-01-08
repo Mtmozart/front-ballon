@@ -7,6 +7,9 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
 } from "@angular/forms";
 
 import { AuthService } from "../../features/auth/auth.services";
@@ -14,8 +17,35 @@ import { TitleComponent } from "../../common/components/title/title.component";
 import { LoadingComponent } from "../../common/components/loading/loading.componet";
 import { DefautModalComponent } from "../../components/modal/default/default-modal.component";
 import { PrimaryInputComponent } from "../../components/primary-input/primary-input.component";
-import { Consumer, ConsumerResponse, UpdateConsumer } from "../customer.types";
+import { ConsumerResponse, UpdateConsumer } from "../customer.types";
 import { CustomerService } from "../customer.service";
+
+export const updatePasswordValidator: ValidatorFn = (
+  control: AbstractControl
+): ValidationErrors | null => {
+  const password = control.get("passowrd")?.value;
+  const confirm = control.get("passwordConfirm")?.value;
+
+  if (!password && !confirm) return null;
+
+  if (!password || !confirm) {
+    return { passwordMismatch: true };
+  }
+
+  if (
+    password.length < 6 ||
+    !/[A-Z]/.test(password) ||
+    !/[a-z]/.test(password)
+  ) {
+    return { passwordWeak: true };
+  }
+
+  if (password !== confirm) {
+    return { passwordMismatch: true };
+  }
+
+  return null;
+};
 
 @Component({
   selector: "app-profile",
@@ -36,10 +66,11 @@ export class ProfileComponent implements OnInit {
   private router = inject(Router);
   private toast = inject(ToastrService);
   private customerService = inject(CustomerService);
+
   readonly loading = this.authService.loading;
   readonly user = signal<ConsumerResponse | null>(null);
   readonly isEditing = signal(false);
-  
+
   isModalOpen = false;
 
   verificationForm = new FormGroup({
@@ -50,22 +81,24 @@ export class ProfileComponent implements OnInit {
     ]),
   });
 
-  profileForm = new FormGroup({
-    name: new FormControl("", [
-      Validators.required,
-      Validators.minLength(3),
-    ]),
-    email: new FormControl("", [
-      Validators.required,
-      Validators.email,
-    ]),
-    passowrd: new FormControl("", [
-      Validators.required,
-    ]),
-    cell_phone: new FormControl("", [
-      Validators.minLength(10),
-    ]),
-  });
+  profileForm = new FormGroup(
+    {
+      name: new FormControl("", [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      email: new FormControl("", [
+        Validators.required,
+        Validators.email,
+      ]),
+      passowrd: new FormControl(""),
+      passwordConfirm: new FormControl(""),
+      cell_phone: new FormControl("", [
+        Validators.minLength(10),
+      ]),
+    },
+    { validators: updatePasswordValidator }
+  );
 
   ngOnInit(): void {
     this.loadCurrentUser();
@@ -86,6 +119,12 @@ export class ProfileComponent implements OnInit {
           email: user.email,
           cell_phone: user.cell_phone ?? "",
         });
+
+        if (!user.isConfirmed) {
+          this.profileForm.get("cell_phone")?.disable();
+        } else {
+          this.profileForm.get("cell_phone")?.enable();
+        }
       },
       error: () => {
         this.toast.error("Usuário não autorizado.");
@@ -107,39 +146,46 @@ export class ProfileComponent implements OnInit {
         cell_phone: user.cell_phone ?? "",
       });
     }
+
+    this.profileForm.get("passowrd")?.reset();
+    this.profileForm.get("passwordConfirm")?.reset();
+
     this.isEditing.set(false);
   }
 
-saveProfile() {
-  if (this.profileForm.invalid) {
-    this.toast.error("Formulário inválido.");
-    return;
+  saveProfile() {
+    if (this.profileForm.invalid) {
+      this.toast.error("Formulário inválido.");
+      return;
+    }
+
+    const token = this.authService.getToken();
+    if (!token) {
+      this.toast.error("Usuário não autenticado.");
+      return;
+    }
+
+    const customerUpdate: UpdateConsumer = {
+      name: this.profileForm.value.name!,
+      email: this.profileForm.value.email!,
+      cellNumber: this.profileForm.value.cell_phone ?? undefined,
+    };
+
+    if (this.profileForm.value.passowrd) {
+      customerUpdate.password = this.profileForm.value.passowrd;
+    }
+
+    this.customerService.update(customerUpdate, token).subscribe({
+      next: () => {
+        this.toast.success("Perfil atualizado com sucesso.");
+        this.isEditing.set(false);
+        this.loadCurrentUser();
+      },
+      error: () => {
+        this.toast.error("Erro ao atualizar perfil.");
+      },
+    });
   }
-
-  const token = this.authService.getToken();
-  if (!token) {
-    this.toast.error("Usuário não autenticado.");
-    return;
-  }
-
-  const customerUpdate: UpdateConsumer = {
-    name: this.profileForm.value.name!,
-    email: this.profileForm.value.email!,
-    password: this.profileForm.value.passowrd!,
-    cellNumber: this.profileForm.value.cell_phone ?? undefined,
-  };
-
-  this.customerService.update(customerUpdate, token).subscribe({
-    next: () => {
-      this.toast.success("Perfil atualizado com sucesso.");
-      this.isEditing.set(false);
-      this.loadCurrentUser();
-    },
-    error: () => {
-      this.toast.error("Erro ao atualizar perfil.");
-    },
-  });
-}
 
   openModal() {
     this.isModalOpen = true;

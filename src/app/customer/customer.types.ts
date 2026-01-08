@@ -23,7 +23,7 @@ export type ConsumerResponse = {
 export interface UpdateConsumer {
   name: string;
   email: string;
-  password: string;
+  password?: string;
   cellNumber?: string;
 }
 

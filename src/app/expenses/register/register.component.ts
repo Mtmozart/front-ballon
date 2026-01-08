@@ -108,11 +108,8 @@ export class RegisterExpenseComponent {
     ]),
     value: new FormControl("", [Validators.required]),
     categoryId: new FormControl("", [Validators.required]),
-
     isRecorrente: new FormControl<boolean>(false, { nonNullable: true }),
-
-    recurring: new FormControl<number | null>(null),
-  },
+    recurring: new FormControl<number | null>(null),  },
   { validators: expenseValidator }
 );
 

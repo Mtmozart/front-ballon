@@ -39,3 +39,25 @@
   font-style: italic;
   opacity: 1;
 }
+
+.input-content input:disabled {
+  background-color: #e5e7eb;        /* cinza mais evidente */
+  border-color: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.input-content input:disabled::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.input-content input:disabled:focus {
+  border-color: #d1d5db;
+  box-shadow: none;
+}
+
+
+.input-wrapper:has(input:disabled) label {
+  color: #9ca3af;
+}

@@ -29,8 +29,6 @@ export class PrimaryInputComponent implements ControlValueAccessor {
   @Input() placeholder: string = "";
   @Input() label: string = "";
   @Input() inputName: string = "";
-
-  // Máscaras e opções opcionais
   @Input() maxLength?: number;
   @Input() mask?: string;
   @Input() decimalMarker: "." | "," | [".", ","] = ",";
@@ -38,17 +36,21 @@ export class PrimaryInputComponent implements ControlValueAccessor {
   @Input() prefix: string = "";
 
   value: string = "";
+  disabled = false; 
+
   onChange: any = () => {};
   onTouched: any = () => {};
 
   onInput(event: Event) {
+    if (this.disabled) return; 
+
     const value = (event.target as HTMLInputElement).value;
     this.value = value;
     this.onChange(value);
   }
 
   writeValue(value: any): void {
-    this.value = value;
+    this.value = value ?? "";
   }
 
   registerOnChange(fn: any): void {
@@ -60,6 +62,7 @@ export class PrimaryInputComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    // Implementar se precisar desativar o input
+    this.disabled = isDisabled; // 👈 ESSENCIAL
   }
 }
+

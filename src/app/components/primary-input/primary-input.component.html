@@ -14,6 +14,7 @@
       [thousandSeparator]="thousandSeparator"
       [decimalMarker]="decimalMarker"
       [attr.maxlength]="maxLength ?? null"
+      [disabled]="disabled" 
     />
 
     <ng-template #noMaskInput>
@@ -24,6 +25,7 @@
         (input)="onInput($event)"
         [id]="inputName"
         [attr.maxlength]="maxLength ?? null"
+        [disabled]="disabled" 
       />
     </ng-template>
   </div>
