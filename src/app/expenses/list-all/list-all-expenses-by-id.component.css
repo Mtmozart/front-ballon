@@ -1,4 +1,8 @@
-.expenses__conteiner{
+.expense__conteiner{
+  display: flex;
+  justify-content: center;
+}
+.expenses__content__conteiner{
   display: flex;
   gap: 1rem;
   justify-content: center;

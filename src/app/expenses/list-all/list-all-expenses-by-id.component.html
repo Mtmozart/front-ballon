@@ -1,7 +1,7 @@
-<ng-container *ngIf="(expenses$ | async) as expenses">
+<div *ngIf="(expenses$ | async) as expenses" class="expense__conteiner">
   
   <div *ngIf="expenses.length > 0; else noExpenses">
-    <div class="expenses__conteiner">
+    <div class="expenses__content__conteiner">
       <div *ngFor="let expense of expenses" class="expenses__content">
         <app-expense-item [expense]="expense"></app-expense-item>
       </div>
@@ -15,7 +15,8 @@
     </div>
   </div>
 
-</ng-container>
+</div>
+
 
 <ng-template #noExpenses>
   <div class="expense__no__content">
