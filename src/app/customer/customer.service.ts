@@ -16,59 +16,33 @@ export class CustomerService {
     return this.apiService.post(this.endpoint, customer);
   }
 
- getById(token: string): Observable<Consumer> {
-  return this.apiService.get(`${this.endpoint}`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
+ getById(): Observable<Consumer> {
+  return this.apiService.get(`${this.endpoint}`);
   }
 
-  update(customer: UpdateConsumer, token: string): Observable<Consumer> {
+  update(customer: UpdateConsumer): Observable<Consumer> {
   return this.apiService.put<Consumer>(
     `${this.endpoint}`,
     customer,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
   );
 }
 
 
-  delete(token: string): Observable<void> {
-    return this.apiService.delete<void>(
-      `${this.endpoint}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+  delete(): Observable<void> {
+    return this.apiService.delete<void>(`${this.endpoint}`);
   }
   //TODO: MUDAR PARA GET
-  generateCodeToValidadeAccount(token: string): Observable<void> {
+  generateCodeToValidadeAccount(): Observable<void> {
     return this.apiService.put(
       `${this.endpoint}/generate-new-code`,
-      {}, 
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
+      {}
     );
   }
 
-  validateCode(token: string, code: string): Observable<void> {
+  validateCode(code: string): Observable<void> {
     return this.apiService.put(
       `${this.endpoint}/validate`,
-      {code}, 
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
+      {code}
     );
   }
 

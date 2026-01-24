@@ -20,83 +20,43 @@ export class ExpenseService {
   ) {}
 
   register(expense: CreateExpense): Observable<Expense> {
-    const token = this.authService.getToken();
-
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
     return this.apiService
-      .post<Expense>(this.endpoint, expense, { headers })
+      .post<Expense>(this.endpoint, expense)
       .pipe(tap(() => this.reloadExpensesSource.next()));
   }
 
   recurringExpenses(expense: CreateExpense): Observable<Expense[]> {
-
-    const token = this.authService.getToken();
-
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
     const endpointToGenerateRecurring = this.endpoint + '/recurring'
     return this.apiService
-      .post<Expense[]>(endpointToGenerateRecurring, expense, { headers })
+      .post<Expense[]>(endpointToGenerateRecurring, expense)
       .pipe(tap(() => this.reloadExpensesSource.next()));
   }
 
   findAllExpensesByUserId(id: string, page: number = 0, size: number = 15): Observable<ExpensesPaginate> {
-  const token = this.authService.getToken();
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-  };
-  
   const route = `${this.endpoint}/users/${id}?page=${page}&size=${size}`;
 
- return this.apiService.get<ExpensesPaginate>(route, { headers }).pipe(
+ return this.apiService.get<ExpensesPaginate>(route).pipe(
     map(response => response)
   );
  }
 
   deleteExpenseById(expenseId: string): Observable<void> {
-    const token = this.authService.getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
     const route = `${this.endpoint}/${expenseId}`;
     return this.apiService
-      .delete<void>(route, {
-        headers,
-      })
+      .delete<void>(route)
       .pipe(
         tap(() => this.reloadExpensesSource.next()),
       );
   }
 
   getStaticsByMonthAndUserId(id: string, month: string): Observable<{ statics: number }> {
-    const token = this.authService.getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
     const route = `${this.endpoint}/users/${id}/month/${month}`;
-    return this.apiService.get<{statics: number}>(route, {
-      headers,
-    });
+    return this.apiService.get<{statics: number}>(route);
   }
 
   getStaticsByMonthUserIdYear(id: string, month: string, year: number = 2025): Observable<Array<CategoryAndValue>> {
-    const token = this.authService.getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
     const route = `${this.endpoint}/users/${id}/month/${month}/year/${year}`;
-    const response =  this.apiService.get<Array<CategoryAndValue>>(route, {
-      headers,
-    });
+    const response =  this.apiService.get<Array<CategoryAndValue>>(route);
     return response
   }
 }

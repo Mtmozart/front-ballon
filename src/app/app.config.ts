@@ -11,7 +11,9 @@ import { provideAnimations } from "@angular/platform-browser/animations";
 import {
   provideHttpClient,
   withFetch,
+  withInterceptors,
 } from "@angular/common/http";
+import { authInterceptor } from "./config/authInterceotor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(),
     provideToastr(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideClientHydration(withEventReplay()),
   ],
 };

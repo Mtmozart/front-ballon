@@ -105,32 +105,25 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadCurrentUser() {
-    this.authService.getUserByToken().subscribe({
-      next: (user) => {
-        if (!user) {
-          this.router.navigate(["/auth"]);
-          return;
-        }
+    
+    const currentUser = this.authService.user();
+    
+    if (currentUser) {
+      this.user.set(currentUser);
+      this.profileForm.patchValue({
+        name: currentUser.name,
+        email: currentUser.email,
+        cell_phone: currentUser.cell_phone ?? "",
+      });
 
-        this.user.set(user);
-
-        this.profileForm.patchValue({
-          name: user.name,
-          email: user.email,
-          cell_phone: user.cell_phone ?? "",
-        });
-
-        if (!user.isConfirmed) {
-          this.profileForm.get("cell_phone")?.disable();
-        } else {
-          this.profileForm.get("cell_phone")?.enable();
-        }
-      },
-      error: () => {
-        this.toast.error("Usuário não autorizado.");
-        this.router.navigate(["/auth"]);
-      },
-    });
+      if (!currentUser.isConfirmed) {
+        this.profileForm.get("cell_phone")?.disable();
+      } else {
+        this.profileForm.get("cell_phone")?.enable();
+      }
+      return;
+    }
+  
   }
 
   enableEdit() {
@@ -175,7 +168,7 @@ export class ProfileComponent implements OnInit {
       customerUpdate.password = this.profileForm.value.passowrd;
     }
 
-    this.customerService.update(customerUpdate, token).subscribe({
+    this.customerService.update(customerUpdate).subscribe({
       next: () => {
         this.toast.success("Perfil atualizado com sucesso.");
         this.isEditing.set(false);
@@ -199,7 +192,7 @@ export class ProfileComponent implements OnInit {
     const token = this.authService.getToken();
     if (!token) return;
 
-    this.customerService.generateCodeToValidadeAccount(token).subscribe({
+    this.customerService.generateCodeToValidadeAccount().subscribe({
       next: () => {
         this.toast.success("Código enviado via e-mail.");
       },
@@ -220,7 +213,7 @@ export class ProfileComponent implements OnInit {
 
     if (!token) return;
 
-    this.customerService.validateCode(token, code).subscribe({
+    this.customerService.validateCode(code).subscribe({
       next: () => {
         this.toast.success("Conta validada com sucesso.");
         this.isModalOpen = false;

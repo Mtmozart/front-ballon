@@ -41,6 +41,7 @@ export class AuthService {
   this.loading.set(true);
 
   if (!isPlatformBrowser(this.platformId)) {
+    this.loading.set(false);
     return of(null);
   }
 
@@ -48,13 +49,12 @@ export class AuthService {
 
   if (!token) {
     this.currentUser.set(null);
+    this.loading.set(false);
     return of(null);
   }
 
   return this.apiService
-    .get<ConsumerResponse>("consumers/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    .get<ConsumerResponse>("consumers/me", )
     .pipe(
       tap((user) => this.currentUser.set(user)),
       catchError((error) => {
