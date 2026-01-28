@@ -16,7 +16,6 @@ export class ExpenseService {
 
   constructor(
     private apiService: ApiService,
-    private authService: AuthService,
   ) {}
 
   register(expense: CreateExpense): Observable<Expense> {

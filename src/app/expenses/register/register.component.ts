@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import {
   AbstractControl,
   FormControl,
@@ -17,6 +17,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { ExpenseService } from "../expenses.service";
 import { CreateExpense } from "../expenses.types";
 import { CategoryEnum } from "./register.types";
+import { CategorySelectComponent } from "../../components/category/select/category-select.component";
+import { Category } from "../../category/category.types";
 
 interface IRegisterExpense {
   month: FormControl;
@@ -76,12 +78,13 @@ export const expenseValidator: ValidatorFn = (
     SelectComponent,
     NgxMaskDirective,
     MatIconModule,
+    CategorySelectComponent,
   ],
   providers: [provideNgxMask()],
   templateUrl: "./register.component.html",
   styleUrls: ["./register.component.css"],
 })
-export class RegisterExpenseComponent {
+export class RegisterExpenseComponent implements OnInit {
   private authService = inject(AuthService);
   private toastService = inject(ToastrService);
   private expenseService = inject(ExpenseService);
@@ -90,6 +93,15 @@ export class RegisterExpenseComponent {
   registerExpenseForm: FormGroup<IRegisterExpense>;
   categoriaOptions = categoryOptions;
   monthsOptions = Object.entries(months).map(([value, label]) => ({ value, label }));
+  selectedCategory: Category | null = null;
+
+  ngOnInit() {
+  }
+
+  onCategoryChange(category: Category) {
+    this.selectedCategory = category;
+    this.registerExpenseForm.patchValue({ categoryId: category?.id || "" });
+  }
 
   constructor() {
   this.registerExpenseForm = new FormGroup<IRegisterExpense>(
@@ -103,7 +115,7 @@ export class RegisterExpenseComponent {
     ]),
     title: new FormControl("", [
       Validators.required,
-      Validators.minLength(2),
+      Validators.minLength(3),
       Validators.maxLength(50),
     ]),
     value: new FormControl("", [Validators.required]),
@@ -112,7 +124,6 @@ export class RegisterExpenseComponent {
     recurring: new FormControl<number | null>(null),  },
   { validators: expenseValidator }
 );
-
     this.registerExpenseForm.get('isRecorrente')?.valueChanges.subscribe((checked) => {
       const recurringField = this.registerExpenseForm.get('recurring');
 
@@ -148,8 +159,8 @@ export class RegisterExpenseComponent {
 
       const expense: CreateExpense = {
         month: form.month,
-        categoriaId: form.categoryId,
-        consumerId: user.id,
+        categoryId: form.categoryId,
+        customerId: user.id,
         title: form.title,
         value: numericValue,
         year: form.year,

@@ -54,7 +54,7 @@ export class AuthService {
   }
 
   return this.apiService
-    .get<ConsumerResponse>("consumers/me", )
+    .get<ConsumerResponse>("customer/me", )
     .pipe(
       tap((user) => this.currentUser.set(user)),
       catchError((error) => {

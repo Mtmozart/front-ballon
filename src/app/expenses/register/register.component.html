@@ -31,12 +31,10 @@
       </div>
 
       <div class="form-group-inline">
-        <app-select
-          formControlName="categoryId"
-          [options]="categoriaOptions"
-          label="Categoria"
-          placeholder="Selecione"
-        ></app-select>
+        <category-select
+          [selectedCategory]="selectedCategory"
+          (categoryChange)="onCategoryChange($event)"
+        ></category-select>
       </div>
 
       <div class="form-group-inline">

@@ -27,8 +27,8 @@ export type CreateExpense = {
   year: number;
   title: string;
   value: number;
-  consumerId: string;
-  categoriaId: Categories;
+  customerId: string;
+  categoryId: Categories;
   recurring?: number;
 };
 

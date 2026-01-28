@@ -6,7 +6,7 @@ import { ApiService } from "../api/api.service";
   providedIn: "root",
 })
 export class CustomerService {
-  private readonly endpoint = "consumers";
+  private readonly endpoint = "customer";
 
   constructor(
     private apiService: ApiService,

@@ -1,0 +1,37 @@
+<div class="category-select-container">
+  <div
+    class="category-display"
+    [class.selected]="selectedCategory"
+    (click)="openCategoryModal()"
+  >
+    <div *ngIf="selectedCategory; else noSelection" class="category-content">
+      <div
+        class="category-color-indicator"
+        [style.background-color]="'#000000'"
+      ></div>
+      <div class="category-text">
+        <div class="category-name">{{ selectedCategory.title }}</div>
+      </div>
+      <button
+        class="btn-clear"
+        (click)="clearSelection(); $event.stopPropagation()"
+        title="Limpar seleção"
+        type="button"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <ng-template #noSelection>
+      <div class="placeholder">
+        <span>Selecione uma categoria</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <category-modal
+    [isOpen]="showCategoryModal"
+    (close)="closeCategoryModal()"
+    (categorySelected)="onCategorySelected($event)"
+  ></category-modal>
+</div>

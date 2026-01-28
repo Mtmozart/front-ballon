@@ -1,0 +1,80 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="closeModal()">
+  <default-modal [title]="'Categorias'" (close)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <!-- Lista de Categorias -->
+      <div class="categories-list" *ngIf="!isCreatingNew">
+        <div class="list-header">
+          <h3>Suas Categorias</h3>
+          <button class="btn-add" (click)="toggleCreateNew()" title="Adicionar nova categoria">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <div class="categories-grid">
+          <div
+            *ngFor="let category of categories"
+            class="category-card"
+          >
+            <div class="category-info" (click)="selectCategory(category)">
+              <div class="category-name">{{ category.title }}</div>              
+            </div>
+            <button
+              class="btn-delete"
+              (click)="deleteCategory(category.id)"
+              title="Deletar categoria"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="empty-state" *ngIf="categories.length === 0">
+          <p>Nenhuma categoria criada ainda</p>
+          <button class="btn-primary" (click)="toggleCreateNew()">Criar Primeira Categoria</button>
+        </div>
+      </div>
+
+      <div class="create-form" *ngIf="isCreatingNew">
+        <div class="form-header">
+          <h3>Nova Categoria</h3>
+          <button class="btn-back" (click)="toggleCreateNew()" title="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+        </div>
+
+        <form [formGroup]="categoryForm" (ngSubmit)="createNewCategory()">
+          <div class="form-group">
+            <label for="title">Nome da Categoria *</label>
+            <input
+              id="title"
+              type="text"
+              formControlName="title"
+              placeholder="Ex: Alimentação"
+              class="input-field"
+            />
+            <small class="error" *ngIf="categoryForm.get('title')?.invalid && categoryForm.get('title')?.touched">
+              O nome deve ter no mínimo 3 caracteres e no máximo 50 caracteres.
+            </small>
+          </div>
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn-cancel"
+              (click)="toggleCreateNew()"
+              [disabled]="isLoading"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn-submit"
+              [disabled]="categoryForm.invalid || isLoading"
+            >
+              {{ isLoading ? "Criando..." : "Criar Categoria" }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </default-modal>
+</div>
