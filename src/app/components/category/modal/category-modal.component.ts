@@ -8,6 +8,7 @@ import { MatInputModule } from "@angular/material/input";
 import { DefautModalComponent } from "../../../components/modal/default/default-modal.component";
 import { CategoryService } from "../../../category/category.service";
 import { Category, CreateCategory } from "../../../category/category.types";
+import { TitleComponent } from "../../../common/components/title/title.component";
 
 @Component({
   selector: "category-modal",
@@ -21,6 +22,7 @@ import { Category, CreateCategory } from "../../../category/category.types";
     MatFormFieldModule,
     MatInputModule,
     DefautModalComponent,
+    TitleComponent,
   ],
   templateUrl: "./category-modal.component.html",
   styleUrls: ["./category-modal.component.css"],

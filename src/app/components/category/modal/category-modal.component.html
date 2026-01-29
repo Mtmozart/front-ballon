@@ -1,12 +1,10 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="closeModal()">
   <default-modal [title]="'Categorias'" (close)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
-      <!-- Lista de Categorias -->
       <div class="categories-list" *ngIf="!isCreatingNew">
         <div class="list-header">
-          <h3>Suas Categorias</h3>
-          <button class="btn-add" (click)="toggleCreateNew()" title="Adicionar nova categoria">
-            <mat-icon>add</mat-icon>
+          <button *ngIf="categories.length > 0" type="button" class="btn-add" (click)="toggleCreateNew(); $event.stopPropagation()" title="Adicionar nova categoria">
+             <span>Adicionar</span>
           </button>
         </div>
 
@@ -14,13 +12,15 @@
           <div
             *ngFor="let category of categories"
             class="category-card"
+            (click)="selectCategory(category)"
           >
-            <div class="category-info" (click)="selectCategory(category)">
+            <div class="category-info">
               <div class="category-name">{{ category.title }}</div>              
             </div>
             <button
+              type="button"
               class="btn-delete"
-              (click)="deleteCategory(category.id)"
+              (click)="deleteCategory(category.id); $event.stopPropagation()"
               title="Deletar categoria"
             >
               <mat-icon>delete</mat-icon>
@@ -30,14 +30,14 @@
 
         <div class="empty-state" *ngIf="categories.length === 0">
           <p>Nenhuma categoria criada ainda</p>
-          <button class="btn-primary" (click)="toggleCreateNew()">Criar Primeira Categoria</button>
+          <button type="button" class="btn-primary" (click)="toggleCreateNew(); $event.stopPropagation()">Criar Primeira Categoria</button>
         </div>
       </div>
 
       <div class="create-form" *ngIf="isCreatingNew">
         <div class="form-header">
-          <h3>Nova Categoria</h3>
-          <button class="btn-back" (click)="toggleCreateNew()" title="Voltar">
+          <app-title size="h3" title="Nova Categoria"></app-title>
+          <button type="button" class="btn-back" (click)="toggleCreateNew(); $event.stopPropagation()" title="Voltar">
             <mat-icon>arrow_back</mat-icon>
           </button>
         </div>
@@ -60,7 +60,7 @@
             <button
               type="button"
               class="btn-cancel"
-              (click)="toggleCreateNew()"
+              (click)="toggleCreateNew(); $event.stopPropagation()"
               [disabled]="isLoading"
             >
               Cancelar

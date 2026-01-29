@@ -22,9 +22,7 @@ export class CategorySelectComponent implements OnInit {
   showCategoryModal = false;
 
   ngOnInit() {
-    console.log('CategorySelectComponent iniciado');
-    this.loadCategories();
-    
+    this.loadCategories();   
     this.categoryService.reloadCategories$.subscribe(() => {
       console.log('Categorias recarregadas');
       this.loadCategories();
@@ -38,8 +36,7 @@ export class CategorySelectComponent implements OnInit {
         error: (error: any) => {
           console.error("Erro ao carregar categorias:", error);
         },
-      });
-    
+      });    
   }
 
   openCategoryModal() {

@@ -13,39 +13,32 @@
 
 .modal-content {
   width: 100%;
-  max-width: 600px;
   max-height: 80vh;
   overflow-y: auto;
 }
 
-/* Lista de Categorias */
 .list-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
   margin-bottom: 1.5rem;
-}
-
-.list-header h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+  padding: 0 0 1rem 0;
 }
 
 .btn-add {
-  background: none;
+  background-color: #4CAF50;
+  color: var(--white);
   border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
   cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
+  font-size: 0.95rem;
+  font-weight: 500;
   transition: background-color 0.2s;
 }
 
 .btn-add:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: #45a049;
 }
 
 .categories-grid {
@@ -53,6 +46,8 @@
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1rem;
+  align-items: stretch;
+  width: 100%;
 }
 
 .category-card {
@@ -60,15 +55,18 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gray);
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s, box-shadow 0.2s;
-  background-color: #fff;
+  transition: all 0.2s ease;
+  background-color: var(--white);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .category-card:hover {
-  background-color: #f9f9f9;
+  border-color: var(--primary-color);
+  background-color: rgba(3, 4, 94, 0.02);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -81,15 +79,6 @@
   font-weight: 600;
   font-size: 1rem;
   margin-bottom: 0.25rem;
-  color: #333;
-}
-
-.category-description {
-  font-size: 0.875rem;
-  color: #666;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .btn-delete {
@@ -101,7 +90,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #e74c3c;
+  color: var(--red);
   transition: background-color 0.2s;
   border-radius: 50%;
 }
@@ -113,7 +102,7 @@
 .empty-state {
   text-align: center;
   padding: 2rem 1rem;
-  color: #999;
+  color: var(--gray);
 }
 
 .empty-state mat-icon {
@@ -131,7 +120,7 @@
 
 .btn-primary {
   background-color: #4CAF50;
-  color: white;
+  color: var(--white);
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
@@ -145,18 +134,13 @@
   background-color: #45a049;
 }
 
-/* Formulário de Criação */
 .form-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
-}
-
-.form-header h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+  padding: 0 0 1rem 0;
+  border-bottom: 2px solid var(--gray);
 }
 
 .btn-back {
@@ -206,29 +190,9 @@
 
 .error {
   display: block;
-  color: #e74c3c;
+  color: var(--red);
   font-size: 0.8rem;
   margin-top: 0.25rem;
-}
-
-.color-picker {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.color-input {
-  width: 60px;
-  height: 40px;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.color-value {
-  font-family: monospace;
-  font-size: 0.9rem;
-  color: #666;
 }
 
 .form-actions {
@@ -273,7 +237,6 @@
   cursor: not-allowed;
 }
 
-/* Responsivo */
 @media (max-width: 600px) {
   .modal-content {
     margin: 1rem;

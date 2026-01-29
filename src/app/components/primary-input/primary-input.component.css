@@ -41,7 +41,7 @@
 }
 
 .input-content input:disabled {
-  background-color: #e5e7eb;        /* cinza mais evidente */
+  background-color: #e5e7eb;
   border-color: #d1d5db;
   color: #9ca3af;
   cursor: not-allowed;
