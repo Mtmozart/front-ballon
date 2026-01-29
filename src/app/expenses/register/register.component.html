@@ -60,34 +60,38 @@
         >
       </div>
 
-      <div class="form-group-inline" *ngIf="registerExpenseForm.get('isRecorrente')?.value">
-        <label for="recurring">Quantidade de recorrências:</label>
-        <input
-          id="recurring"
-          type="number"
-          min="1"
-          formControlName="recurring"
-          placeholder="Ex: 3"
-          class="form-control"
-        >
-      </div>
+      <div class="recurrence-section">
+        <div class="form-group-inline checkbox-group">
+          <label for="isRecorrente">É recorrente?</label>
 
-      <div class="form-group-inline checkbox-group">
-        <label for="isRecorrente">É recorrente?</label>
+          <label class="checkbox-label">
+            <input
+              id="isRecorrente"
+              type="checkbox"
+              formControlName="isRecorrente"
+            >
+            <span class="custom-checkbox"></span>
+          </label>
+        </div>
 
-        <label class="checkbox-label">
+        <div class="form-group-inline" *ngIf="registerExpenseForm.get('isRecorrente')?.value">
+          <label for="recurring">Quantidade de recorrências:</label>
           <input
-            id="isRecorrente"
-            type="checkbox"
-            formControlName="isRecorrente"
+            id="recurring"
+            type="number"
+            min="1"
+            formControlName="recurring"
+            placeholder="Ex: 3"
+            class="form-control"
           >
-          <span class="custom-checkbox"></span>
-        </label>
+        </div>        
       </div>
 
-      <button type="submit" class="submit-button" mat-raised-button color="primary">
-        <mat-icon>add_box_outline</mat-icon>
-      </button>
+      <div class="form-group-inline button-group">
+        <button type="submit" class="submit-button" mat-raised-button color="primary">
+          Adicionar
+        </button>
+      </div>
 
     </form>
   </div>
