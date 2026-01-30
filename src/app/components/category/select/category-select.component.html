@@ -5,6 +5,7 @@
     (click)="openCategoryModal()"
   >
     <div *ngIf="selectedCategory; else noSelection" class="category-content">      
+      <div class="category-color-dot" [ngStyle]="{ 'background-color': selectedCategory.color }"></div>
       <div class="category-text">
         <div class="category-name">{{ selectedCategory.title }}</div>
       </div>

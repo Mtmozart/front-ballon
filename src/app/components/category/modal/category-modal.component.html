@@ -15,16 +15,27 @@
             (click)="selectCategory(category)"
           >
             <div class="category-info">
+              <div class="category-color-dot" [ngStyle]="{ 'background-color': category.color }"></div>
               <div class="category-name">{{ category.title }}</div>              
             </div>
-            <button
-              type="button"
-              class="btn-delete"
-              (click)="deleteCategory(category.id); $event.stopPropagation()"
-              title="Deletar categoria"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
+            <div class="category-actions">
+              <button
+                type="button"
+                class="btn-edit"
+                (click)="editCategory(category); $event.stopPropagation()"
+                title="Editar categoria"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                type="button"
+                class="btn-delete"
+                (click)="deleteCategory(category.id); $event.stopPropagation()"
+                title="Deletar categoria"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -36,7 +47,7 @@
 
       <div class="create-form" *ngIf="isCreatingNew">
         <div class="form-header">
-          <app-title size="h3" title="Nova Categoria"></app-title>
+          <app-title size="h3" [title]="editingCategory ? 'Editar Categoria' : 'Nova Categoria'"></app-title>
           <button type="button" class="btn-back" (click)="toggleCreateNew(); $event.stopPropagation()" title="Voltar">
             <mat-icon>arrow_back</mat-icon>
           </button>
@@ -56,6 +67,22 @@
               O nome deve ter no mínimo 3 caracteres e no máximo 50 caracteres.
             </small>
           </div>
+
+          <div class="form-group">
+            <label>Cor da Categoria *</label>
+            <div class="color-palette">
+              <button
+                *ngFor="let colorName of categoryColorNames"
+                type="button"
+                class="color-button"
+                [ngStyle]="{ 'background-color': categoryColorsMap[colorName] }"
+                [class.selected]="categoryForm.get('color')?.value === colorName"
+                (click)="categoryForm.get('color')?.setValue(colorName)"
+                [title]="colorName"
+              ></button>
+            </div>
+          </div>
+
           <div class="form-actions">
             <button
               type="button"
@@ -70,7 +97,7 @@
               class="btn-submit"
               [disabled]="categoryForm.invalid || isLoading"
             >
-              {{ isLoading ? "Criando..." : "Criar Categoria" }}
+              {{ isLoading ? (editingCategory ? 'Atualizando...' : 'Criando...') : (editingCategory ? 'Atualizar Categoria' : 'Criar Categoria') }}
             </button>
           </div>
         </form>

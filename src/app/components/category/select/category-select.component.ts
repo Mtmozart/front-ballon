@@ -24,7 +24,6 @@ export class CategorySelectComponent implements OnInit {
   ngOnInit() {
     this.loadCategories();   
     this.categoryService.reloadCategories$.subscribe(() => {
-      console.log('Categorias recarregadas');
       this.loadCategories();
     });
   }

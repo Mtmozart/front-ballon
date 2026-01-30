@@ -73,6 +73,17 @@
 .category-info {
   flex: 1;
   min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.category-color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid #ddd;
 }
 
 .category-name {
@@ -81,12 +92,35 @@
   margin-bottom: 0.25rem;
 }
 
+.category-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.btn-edit {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1976d2;
+  transition: background-color 0.2s;
+  border-radius: 50%;
+}
+
+.btn-edit:hover {
+  background-color: rgba(25, 118, 210, 0.1);
+}
+
 .btn-delete {
   background: none;
   border: none;
   cursor: pointer;
   padding: 0.5rem;
-  margin-left: 1rem;
+  margin-left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -193,6 +227,53 @@
   color: var(--red);
   font-size: 0.8rem;
   margin-top: 0.25rem;
+}
+
+.full-width {
+  width: 100%;
+}
+.color-palette {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.color-button {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.color-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.color-button.selected {
+  border-color: #333;
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #333;
+}
+.color-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
 }
 
 .form-actions {

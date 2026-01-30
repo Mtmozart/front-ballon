@@ -32,6 +32,14 @@
   min-width: 0;
 }
 
+.category-color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid #ddd;
+}
+
 .category-text {
   flex: 1;
   min-width: 0;
