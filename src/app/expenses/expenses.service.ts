@@ -29,8 +29,8 @@ export class ExpenseService {
       .pipe(tap(() => this.reloadExpensesSource.next()));
   }
 
-  findAllExpensesByUserId(id: string, page: number = 0, size: number = 15): Observable<ExpensesPaginate> {
-  const route = `${this.endpoint}/all?page=${page}&size=${size}`;
+  findAllExpensesByUserId(id: string, search: string = '', page: number = 0, size: number = 15): Observable<ExpensesPaginate> {
+  const route = `${this.endpoint}/all?search=${search}&page=${page}&size=${size}`;
     const expenses = this.apiService.get<ExpensesPaginate>(route).pipe(
     map(response =>  response)
   );

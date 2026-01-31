@@ -1,17 +1,18 @@
 import { Component, effect, OnDestroy } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 import { ExpenseService } from "../expenses.service";
 import { AuthService } from "../../features/auth/auth.services";
 import { Expense, ExpenseData } from "../expenses.types";
-import { Observable, Subscription } from "rxjs";
-import { tap } from "rxjs/operators";
+import { Observable, Subscription, Subject, of } from "rxjs";
+import { tap, debounceTime } from "rxjs/operators";
 import { ExpenseItemComponent } from "../../components/expense/expense.component";
 import { MatIconModule } from "@angular/material/icon";
-import { of } from 'rxjs';
+import { PrimaryInputComponent } from "../../components/primary-input/primary-input.component";
 @Component({
   selector: "app-list-all-expenses-by-id",
   standalone: true,
-  imports: [CommonModule, ExpenseItemComponent, MatIconModule],
+  imports: [CommonModule, ExpenseItemComponent, MatIconModule, FormsModule, PrimaryInputComponent],
   templateUrl: "./list-all-expenses-by-id.component.html",
   styleUrls: ["./list-all-expenses-by-id.component.css"],
 })
@@ -22,6 +23,9 @@ export class ListAllExpensesByIdComponent implements OnDestroy {
   public currentPage: number = 0;
   public totalPages: number = 0;
   public size: number = 12;
+  public searchTerm: string = '';
+  private searchSubject = new Subject<string>();
+  private searchSub?: Subscription;
 
   constructor(
     private expenseService: ExpenseService,
@@ -37,19 +41,27 @@ export class ListAllExpensesByIdComponent implements OnDestroy {
         });
       }
     });
+
+    this.searchSub = this.searchSubject.pipe(
+      debounceTime(500)
+    ).subscribe(searchTerm => {
+      this.currentPage = 0;
+      this.loadExpenses(0, searchTerm);
+    });
   }
 
   ngOnDestroy() {
     this.reloadSub?.unsubscribe();
+    this.searchSub?.unsubscribe();
   }
 
-loadExpenses(page: number = 0) {
+loadExpenses(page: number = 0, search: string = this.searchTerm) {
   const user = this.authService.user();
   if (!user?.id) return;
 
   this.currentPage = page;
   this.expenseService
-    .findAllExpensesByUserId(user.id, page, this.size)
+    .findAllExpensesByUserId(user.id, search, page, this.size)
     .pipe(
       tap({
         next: (res) => {         
@@ -60,6 +72,11 @@ loadExpenses(page: number = 0) {
       })
     )
     .subscribe();
+}
+
+onSearchChange(value: string) {
+  this.searchTerm = value;
+  this.searchSubject.next(value);
 }
 
   nextPage() {

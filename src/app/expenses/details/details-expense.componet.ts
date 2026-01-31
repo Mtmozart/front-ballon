@@ -100,7 +100,7 @@ export class DetailsExpensesComponent {
       labels: this.labels,
       datasets: [{
         label: 'Gastos por Categoria',
-        data: this.spents,
+        data: this.spents,      
         backgroundColor: [
           '#ff6384',
           '#36a2eb',
@@ -129,7 +129,7 @@ export class DetailsExpensesComponent {
     this.expenseService.getStaticsByMonthUserIdYear(user.id, month).subscribe({
       next: (response: Array<CategoryAndValue>) => {
         response.forEach((v: CategoryAndValue) => {
-          this.labels.push(v.category as unknown as string);
+          this.labels.push(v.category + ' - ' +v.expense as unknown as string);
           this.spents.push(v.expense);
         });
         this.staticsByMonth = response.reduce((total, r) => total + r.expense, 0);
@@ -148,6 +148,6 @@ export class DetailsExpensesComponent {
   }
 
   private getCurrentUser() {
-    const user = this.user();
+    this.user();
   }
 }
