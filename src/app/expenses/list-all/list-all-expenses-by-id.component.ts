@@ -2,7 +2,7 @@ import { Component, effect, OnDestroy } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ExpenseService } from "../expenses.service";
 import { AuthService } from "../../features/auth/auth.services";
-import { Expense } from "../expenses.types";
+import { Expense, ExpenseData } from "../expenses.types";
 import { Observable, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
 import { ExpenseItemComponent } from "../../components/expense/expense.component";
@@ -16,7 +16,7 @@ import { of } from 'rxjs';
   styleUrls: ["./list-all-expenses-by-id.component.css"],
 })
 export class ListAllExpensesByIdComponent implements OnDestroy {
-  expenses$: Observable<Expense[]> | undefined;
+  expenses$: Observable<ExpenseData[]> | undefined;
   private reloadSub?: Subscription;
 
   public currentPage: number = 0;
@@ -48,14 +48,13 @@ loadExpenses(page: number = 0) {
   if (!user?.id) return;
 
   this.currentPage = page;
-
   this.expenseService
     .findAllExpensesByUserId(user.id, page, this.size)
     .pipe(
       tap({
         next: (res) => {         
           this.totalPages = res.totalPages;
-          this.expenses$ = of(res.content); 
+          this.expenses$ = of(res.expenses); 
         },
         error: (err) => console.error("Erro ao buscar despesas:", err),
       })

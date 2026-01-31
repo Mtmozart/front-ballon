@@ -1,8 +1,7 @@
 // expense.service.ts
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { map, Observable, Subject, tap } from "rxjs";
 import { ApiService } from "../api/api.service";
-import { AuthService } from "../features/auth/auth.services";
 import { CategoryAndValue, CreateExpense, Expense, ExpensesPaginate } from "./expenses.types";
 
 @Injectable({
@@ -10,13 +9,12 @@ import { CategoryAndValue, CreateExpense, Expense, ExpensesPaginate } from "./ex
 })
 export class ExpenseService {
   private readonly endpoint = "expenses";
+  private readonly apiService = inject(ApiService);
 
   private reloadExpensesSource = new Subject<void>();
   reloadExpenses$ = this.reloadExpensesSource.asObservable();
 
-  constructor(
-    private apiService: ApiService,
-  ) {}
+  constructor() {}
 
   register(expense: CreateExpense): Observable<Expense> {
     return this.apiService
@@ -32,11 +30,11 @@ export class ExpenseService {
   }
 
   findAllExpensesByUserId(id: string, page: number = 0, size: number = 15): Observable<ExpensesPaginate> {
-  const route = `${this.endpoint}/users/${id}?page=${page}&size=${size}`;
-
- return this.apiService.get<ExpensesPaginate>(route).pipe(
-    map(response => response)
+  const route = `${this.endpoint}/all?page=${page}&size=${size}`;
+    const expenses = this.apiService.get<ExpensesPaginate>(route).pipe(
+    map(response =>  response)
   );
+ return expenses;
  }
 
   deleteExpenseById(expenseId: string): Observable<void> {

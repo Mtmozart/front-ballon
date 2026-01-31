@@ -3,11 +3,12 @@ import { Expense } from "../../expenses/expenses.types";
 import { MatIconModule } from "@angular/material/icon";
 import { ExpenseService } from "../../expenses/expenses.service";
 import { ToastrService } from "ngx-toastr";
+import { NgStyle } from "@angular/common";
 
 @Component({
   selector: "app-expense-item",
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatIconModule, NgStyle],
   templateUrl: "./expense.component.html",
   styleUrls: ["./expense.component.css"],
 })
@@ -59,6 +60,15 @@ export class ExpenseItemComponent {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(this.expense.value);
+  }
+
+  get cardStyle(): { [key: string]: string } {
+    if (this.expense?.color) {
+      return {
+        '--gradient-color': this.expense.color
+      };
+    }
+    return {};
   }
 
     onDelete(id: string) {

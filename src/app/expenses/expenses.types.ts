@@ -39,7 +39,19 @@ export type Expense = {
   year: number;
   value: number;
   category: string;
+  color?: string;
 };
+
+
+export type ExpenseData = {
+  id: string;
+  title: string;
+  month: Months;
+  year: number;
+  value: number;
+  category: string;
+};
+
 
 
 export type CategoryAndValue = {
@@ -49,7 +61,7 @@ export type CategoryAndValue = {
 
 
 export type ExpensesPaginate = {
-  content: Expense[];
+  expenses: ExpenseData[];
   last: boolean;
   pageNumber: number;
   pageSize: number;
