@@ -66,17 +66,6 @@ export class DetailsExpensesComponent {
   private labels: string[] = []
   private spents: number[] = []
 
-  categoryOptions = [
-    { value: CategoryEnum.FIXED_COSTS, label: "Gastos Fixos" },
-    { value: CategoryEnum.COMFORT, label: "Conforto" },
-    { value: CategoryEnum.GOALS, label: "Metas" },
-    { value: CategoryEnum.KNOWLEDGE, label: "Conhecimento" },
-    { value: CategoryEnum.PLEASURES, label: "Prazeres" },
-    { value: CategoryEnum.FINANCIAL_FREEDOM, label: "Liberdade Financeira" },
-  ];
-
-
-
   constructor(private fb: FormBuilder) {
     this.monthForm = this.fb.group({
       month: [null],
@@ -139,10 +128,9 @@ export class DetailsExpensesComponent {
 
     this.expenseService.getStaticsByMonthUserIdYear(user.id, month).subscribe({
       next: (response: Array<CategoryAndValue>) => {
-        response.map((v: CategoryAndValue) =>{ 
-          const catEnum = this.categoryFromString(v.category as unknown as string);
-           this.labels.push(catEnum !== undefined ? categoryLabels[catEnum] : 'Desconhecido');
-           this.spents.push(v.expense)           
+        response.forEach((v: CategoryAndValue) => {
+          this.labels.push(v.category as unknown as string);
+          this.spents.push(v.expense);
         });
         this.staticsByMonth = response.reduce((total, r) => total + r.expense, 0);
         this.createChart()

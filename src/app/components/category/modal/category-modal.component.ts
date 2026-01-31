@@ -114,11 +114,9 @@ export class CategoryModalComponent implements OnInit {
     this.editingCategory = category;
     this.isCreatingNew = true;
     
-    const hexColor = this.categoryColorsMap[category.color] || CategoryColor.DEFAULT;
-    
     this.categoryForm.patchValue({
       title: category.title,
-      color: hexColor,
+      color: category.color,
     });
   }
 
@@ -126,8 +124,15 @@ export class CategoryModalComponent implements OnInit {
     if (this.categoryForm.invalid) return;
 
     this.isLoading = true;
-    const colorHex = this.categoryForm.get('color')?.value;
-    const colorName = this.colorHexToName[colorHex] as CategoryColorName || 'DEFAULT';
+    let colorValue = this.categoryForm.get('color')?.value;
+    
+    let colorName: CategoryColorName;
+    if(colorValue == null || colorValue === '#9E9E9E' || colorValue === CategoryColor.DEFAULT) {
+      colorName = 'DEFAULT';
+    } else {
+      colorName = colorValue as CategoryColorName;
+    }
+    
     const title = this.categoryForm.get('title')?.value;
     
     if (this.editingCategory) {

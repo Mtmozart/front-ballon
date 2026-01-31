@@ -51,9 +51,8 @@ export class ExpenseService {
     return this.apiService.get<{statics: number}>(route);
   }
 
-  getStaticsByMonthUserIdYear(id: string, month: string, year: number = 2025): Observable<Array<CategoryAndValue>> {
+  getStaticsByMonthUserIdYear(id: string, month: string, year: number = 2026): Observable<Array<CategoryAndValue>> {
     const route = `${this.endpoint}/users/${id}/month/${month}/year/${year}`;
-    const response =  this.apiService.get<Array<CategoryAndValue>>(route);
-    return response
+    return  this.apiService.get<Array<CategoryAndValue>>(route);
   }
 }
