@@ -3,24 +3,19 @@
   box-sizing: border-box;
   width: 100%;
   display: flex;
-  justify-content: center;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  flex-direction: column;
+  padding: 2rem;
 }
 
 .chart__content {
   display: flex;
-  align-items: center;
-  justify-content:  center;
+  
+  justify-content: center;
   flex-direction: column;
-  width: 90%;
+  width: 100%;
 }
 
 app-title {
   text-align: center;
 }
-@media (min-width: 1120px) {
-  .expenses__container {
-    min-width: 70rem;
-  }
-}
+

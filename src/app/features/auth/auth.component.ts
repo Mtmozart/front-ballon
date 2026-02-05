@@ -8,7 +8,7 @@ import {
 } from "@angular/forms";
 import { AuthService } from "./auth.services";
 import { ToastrService } from "ngx-toastr";
-import { Route, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { PrimaryInputComponent } from "../../components/primary-input/primary-input.component";
 import { DefaultLoginLayoutComponent } from "../../components/default-login-layout/default-login-layout.component";
 import { switchMap, tap } from "rxjs";
@@ -83,7 +83,7 @@ export class AuthComponent {
   }
 
   navigate(path: string) {
-    this.router.navigate(["/profile"]);
+    this.router.navigate([`/${path}`]);
   }
 }
 

@@ -2,16 +2,19 @@
   <div class="logo">
       <p>BALLON</p>
   </div>
-  <nav class="navbar-content">
+  <button class="menu-toggle" (click)="toggleMenu()" [attr.aria-label]="isMenuOpen ? 'Fechar menu' : 'Abrir menu'">
+    <fa-icon [icon]="isMenuOpen ? faTimes : faBars"></fa-icon>
+  </button>
+  <nav class="navbar-content" [class.active]="isMenuOpen">
     <ul>
-      <li *ngIf="!authService.user() as user"> <a routerLink="/register">Cadastre-se</a></li>
-      <li *ngIf="authService.user() as user"><a  routerLink="/profile">Perfil</a></li>
-      <li *ngIf="authService.user() as user"><a  routerLink="/expenses">Gastos</a></li>
-      <li *ngIf="authService.user() as user"><a  routerLink="/details">Detalhamento</a></li>
-      <li *ngIf="authService.user() as user"><a (click)="logout()">Logout</a></li>
-      <li *ngIf="!authService.user()"><a routerLink="/auth">Login</a></li>
+      <li *ngIf="!authService.user() as user"> <a routerLink="/register" (click)="closeMenu()">Cadastre-se</a></li>
+      <li *ngIf="authService.user() as user"><a routerLink="/profile" (click)="closeMenu()">Perfil</a></li>
+      <li *ngIf="authService.user() as user"><a routerLink="/expenses" (click)="closeMenu()">Gastos</a></li>
+      <li *ngIf="authService.user() as user"><a routerLink="/details" (click)="closeMenu()">Detalhamento</a></li>
+      <li *ngIf="authService.user() as user"><a (click)="logout(); closeMenu()">Logout</a></li>
+      <li *ngIf="!authService.user()"><a routerLink="/auth" (click)="closeMenu()">Login</a></li>
       <li>
-        <button (click)="toggle()">
+        <button (click)="toggle()" class="theme-toggle">
           <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
         </button>
       </li>

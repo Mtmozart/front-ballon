@@ -1,17 +1,28 @@
 <section class="chart__card__container">
-  <form [formGroup]="monthForm" class="inline-form">
-    <app-select
-      formControlName="month"
-      [options]="monthsOptions"
-      label="Mês"
-      placeholder="Selecione"
-    ></app-select>
-    <div class="statics__by__month">Total por mês: R$ {{ staticsByMonth | number:'1.2-2' }}</div>
-  </form>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h3>Gastos de Despesas Repetitivas por Mês</h3>
+      <div class="chart-card-body">
+        <canvas id="YearlyChart"></canvas>
+      </div>
+    </div>
 
-   <div class="chart-container">
-    <h3>Visualização de Gastos por Categoria</h3>
-    <canvas id="MyChart"></canvas>
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <h3>Visualização de Gastos por Categoria - {{ currentMonthLabel }}</h3>
+        <form [formGroup]="monthForm" class="inline-form">
+          <app-select
+            formControlName="month"
+            [options]="monthsOptions"
+            label="Mês"
+            placeholder="Selecione"
+          ></app-select>
+          <div class="statics__by__month">Total por mês: R$ {{ staticsByMonth | number:'1.2-2' }}</div>
+        </form>
+      </div>
+      <div class="chart-card-body">
+        <canvas id="MyChart"></canvas>
+      </div>
+    </div>
   </div>
-
 </section>

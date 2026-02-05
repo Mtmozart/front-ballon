@@ -7,7 +7,7 @@ import {
   inject,
 } from "@angular/core";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+import { faMoon, faSun, faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { AuthService } from "../../../features/auth/auth.services";
 import { ToastrService } from "ngx-toastr";
@@ -23,7 +23,10 @@ import { Router, RouterModule } from "@angular/router";
 export class HeaderComponent {
   faMoon = faMoon;
   faSun = faSun;
+  faBars = faBars;
+  faTimes = faTimes;
   isDarkMode = false;
+  isMenuOpen = false;
   authService = inject(AuthService);
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -44,6 +47,12 @@ export class HeaderComponent {
       document.body.classList.toggle("dark-theme");
       this.isDarkMode = !this.isDarkMode;
     }
+  }
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+  closeMenu() {
+    this.isMenuOpen = false;
   }
   logout() {
     this.authService.logout();

@@ -2,7 +2,6 @@ import { Component, effect, inject } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { SelectComponent } from "../../components/select/select.component";
-import { CategoryEnum } from "../register/register.types";
 import { MatIconModule } from "@angular/material/icon";
 import { provideNgxMask } from "ngx-mask";
 import { ExpenseService } from "../expenses.service";
@@ -25,17 +24,6 @@ const months = {
   NOVEMBER: "Novembro",
   DECEMBER: "Dezembro",
 };
-
-const categoryLabels: Record<Categories, string> = {
-  [Categories.FIXED_COSTS]: "Gastos Fixos",
-  [Categories.COMFORT]: "Conforto",
-  [Categories.GOALS]: "Metas",
-  [Categories.KNOWLEDGE]: "Conhecimento",
-  [Categories.PLEASURES]: "Prazeres",
-  [Categories.FINANCIAL_FREEDOM]: "Liberdade Financeira",
-};
-
-
 
 @Component({
   selector: "detail-expense-component",
@@ -63,8 +51,11 @@ export class DetailsExpensesComponent {
     label,
   }));
   public chart: any;
+  public yearlyChart: any;
+  public currentMonthLabel: string = '';
   private labels: string[] = []
   private spents: number[] = []
+  private monthlyData: Array<{month: number, value: number}> = []
 
   constructor(private fb: FormBuilder) {
     this.monthForm = this.fb.group({
@@ -74,49 +65,78 @@ export class DetailsExpensesComponent {
     this.categoryForm = this.fb.group({
       categoryId: [null],
     });
-    effect(() => {
-      const user = this.user();
-      if (user) {
-        this.getCurrentUser();
+  }
+
+  ngOnInit(): void {
+    const monthKeys = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 
+                       'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+    const currentMonthKey = monthKeys[new Date().getMonth()];
+    this.currentMonthLabel = months[currentMonthKey as keyof typeof months];
+    
+    setTimeout(() => {
+      this.monthForm.get("month")?.setValue(currentMonthKey, { emitEvent: false });
+      this.updateTotalByMonth(currentMonthKey);
+    }, 0);
+
+    this.createChart();    
+    this.monthForm.get("month")?.valueChanges.subscribe((month) => {
+      this.currentMonthLabel = months[month as keyof typeof months];
+      this.updateTotalByMonth(month);
+    });
+    
+    this.expenseService.getStaticsRecurringByYear(2026).subscribe({
+      next: (response) => {
+        this.monthlyData = response;
+        this.createYearlyChart();
       }
     });
   }
 
-  ngOnInit(): void {
-    this.createChart();    
-    this.monthForm.get("month")?.valueChanges.subscribe((month) => {
-      this.updateTotalByMonth(month);
-    });
-    
-  }
-
   createChart() {
     if (this.chart) {
-    this.chart.destroy();
-  }
-    this.chart = new Chart("MyChart", {
-    type: 'doughnut',
-    data: {
-      labels: this.labels,
-      datasets: [{
-        label: 'Gastos por Categoria',
-        data: this.spents,      
-        backgroundColor: [
-          '#ff6384',
-          '#36a2eb',
-          '#ffce56',
-          '#4bc0c0',
-          '#9966ff',
-          '#ff9f40'
-        ],
-        borderColor: '#ffffff',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true
+      this.chart.destroy();
     }
-        });
+    this.chart = new Chart("MyChart", {
+      type: 'doughnut',
+      data: {
+        labels: this.labels,
+        datasets: [{
+          label: 'Gastos por Categoria',
+          data: this.spents,      
+          backgroundColor: [
+            '#ff6384',
+            '#36a2eb',
+            '#ffce56',
+            '#4bc0c0',
+            '#9966ff',
+            '#ff9f40'
+          ],
+          borderColor: '#ffffff',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom'
+          },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: (context) => {
+                const label = context.label || '';
+                const value = context.parsed || 0;
+                const total = context.dataset.data.reduce((a: number, b: any) => a + b, 0);
+                const percentage = ((value / total) * 100).toFixed(2);
+                return `${label}: R$ ${value.toFixed(2)} (${percentage}%)`;
+              }
+            }
+          }
+        }
+      }
+    });
   }
 
   updateTotalByMonth(month: string): void {
@@ -137,7 +157,6 @@ export class DetailsExpensesComponent {
       },
       error: (err) => {
         this.toastService.error("Erro ao buscar estatísticas do mês.");
-        console.error(err);
         this.staticsByMonth = 0;
       },
     });
@@ -147,7 +166,50 @@ export class DetailsExpensesComponent {
    return Categories[category as keyof typeof Categories];
   }
 
-  private getCurrentUser() {
-    this.user();
+  createYearlyChart() {
+    if (this.yearlyChart) {
+      this.yearlyChart.destroy();
+    }
+      
+    this.yearlyChart = new Chart("YearlyChart", {
+      type: 'bar',
+      data: {
+        labels: this.mapperRecurringData().map(item => item.month),
+        datasets: [{
+          label: 'Despseas Repetitivas Mensais',
+          data: this.mapperRecurringData().map(item => item.value),
+          backgroundColor: '#36a2eb',
+          borderColor: '#2563eb',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom'
+          },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: (context) => {
+                const value = context.parsed?.y || 0;
+                return `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  private mapperRecurringData(): Array<{month: string, value: number}> {
+    return this.monthlyData.map(item => {
+      const monthIndex = item.month - 1;
+      const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+      return { month: monthNames[monthIndex], value: item.value };
+    });
   }
 }

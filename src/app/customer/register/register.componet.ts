@@ -118,13 +118,11 @@ export class RegisterConsumerComponent implements OnInit{
   this.toastService.info("Criando usuário.");
 
   this.service.register(newCustomer).subscribe({
-    next: (res) => {
-      console.log(res);
+    next: () => {
       this.toastService.success("Usuário criado com sucesso.");
       this.navigate();
     },
-    error: (err) => {
-      console.log(err);
+    error: () => {
       this.toastService.error("Erro ao criar o usuário.");
     },
     complete: () => {
