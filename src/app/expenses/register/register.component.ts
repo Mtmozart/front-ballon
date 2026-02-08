@@ -121,23 +121,30 @@ export class RegisterExpenseComponent implements OnInit {
     value: new FormControl("", [Validators.required]),
     categoryId: new FormControl("", [Validators.required]),
     isRecorrente: new FormControl<boolean>(false, { nonNullable: true }),
-    recurring: new FormControl<number | null>(null),  },
+    recurring: new FormControl<number | null>({ value: null, disabled: true }),
+  },
   { validators: expenseValidator }
 );
-    this.registerExpenseForm.get('isRecorrente')?.valueChanges.subscribe((checked) => {
-      const recurringField = this.registerExpenseForm.get('recurring');
-
-      if (checked) {
-        recurringField?.enable();
-        recurringField?.setValidators([Validators.required, Validators.min(1)]);
-      } else {
-        recurringField?.disable();
-        recurringField?.clearValidators();
-        recurringField?.setValue(null);
-      }
-
-      recurringField?.updateValueAndValidity();
+    this.updateRecurringState(false);
+    this.registerExpenseForm.get("isRecorrente")?.valueChanges.subscribe((checked) => {
+      this.updateRecurringState(!!checked);
     });
+  }
+
+  private updateRecurringState(isRecorrente: boolean) {
+    const recurringField = this.registerExpenseForm.get("recurring");
+
+    if (isRecorrente) {
+      recurringField?.enable();
+      recurringField?.setValidators([Validators.required, Validators.min(1)]);
+    } else {
+      recurringField?.disable();
+      recurringField?.clearValidators();
+      recurringField?.setValue(null);
+      recurringField?.setErrors(null);
+    }
+
+    recurringField?.updateValueAndValidity();
   }
 
   onSubmit() {
@@ -178,6 +185,7 @@ export class RegisterExpenseComponent implements OnInit {
         });
       }
       this.registerExpenseForm.reset({ isRecorrente: false });
+      this.updateRecurringState(false);
     } else {
       this.toastService.error("Por favor, preencha todos os campos corretamente.");
       this.registerExpenseForm.markAllAsTouched();

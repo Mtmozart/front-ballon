@@ -83,7 +83,8 @@ export class AuthComponent {
   }
 
   navigate(path: string) {
-    this.router.navigate([`/${path}`]);
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    this.router.navigate([normalizedPath]);
   }
 }
 
