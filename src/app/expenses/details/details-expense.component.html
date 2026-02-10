@@ -1,9 +1,26 @@
 <section class="chart__card__container">
   <div class="charts-grid">
     <div class="chart-card">
-      <h3>Gastos de Despesas Repetitivas por Mês</h3>
+      <h3>Despesas Repetitivas nos proximos 12 meses</h3>
       <div class="chart-card-body">
-        <canvas id="YearlyChart"></canvas>
+        <canvas id="RecurringNextTwelveMonthsChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <h3>Despesas Repetitivas por Categoria (12 meses)</h3>
+        <form [formGroup]="categoryForm" class="inline-form">
+          <app-select
+            formControlName="categoryId"
+            [options]="categoryOptions"
+            label="Categoria"
+            placeholder="Selecione"
+          ></app-select>
+        </form>
+      </div>
+      <div class="chart-card-body">
+        <canvas id="RecurringNextTwelveMonthsByCategoryChart"></canvas>
       </div>
     </div>
 
