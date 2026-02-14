@@ -70,5 +70,10 @@ export class ExpenseService {
     const route = `${this.endpoint}/recurring/next-twelve-months/category/${category}`;
     return this.apiService.get<Array<any>>(route);
   }
+
+  getStaticsCategoryByCategoryAndYear(category: number, year: number = 2026): Observable<Array<any>> {
+    const route = `${this.endpoint}/category/${category}/year/${year}`;
+    return this.apiService.get<Array<any>>(route);
+  }
 }
 

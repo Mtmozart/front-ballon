@@ -43,6 +43,7 @@ const months = {
 export class DetailsExpensesComponent {
   monthForm: FormGroup;
   categoryForm: FormGroup;
+  categoryYearForm: FormGroup;
   staticsByMonth: number = 0.0;
   private toastService = inject(ToastrService);
   private expenseService = inject(ExpenseService);
@@ -58,12 +59,14 @@ export class DetailsExpensesComponent {
   public yearlyChart: any;
   public recurringNextTwelveMonthsChart: any;
   public recurringNextTwelveMonthsByCategoryChart: any;
+  public categoryYearlyChart: any;
   public currentMonthLabel: string = '';
   private labels: string[] = []
   private spents: number[] = []
   private monthlyData: Array<{month: number, value: number}> = []
   private recurringMonthlyData: Array<{month: number,year: number, value: number}> = []
   private recurringMonthlyByCategoryData: Array<{month: number,year: number, value: number}> = []
+  private categoryYearlyData: Array<{categoryName: string, total: number, month: number, year: number}> = []
 
   constructor(private fb: FormBuilder) {
     this.monthForm = this.fb.group({
@@ -71,6 +74,10 @@ export class DetailsExpensesComponent {
     });
 
     this.categoryForm = this.fb.group({
+      categoryId: [null],
+    });
+
+    this.categoryYearForm = this.fb.group({
       categoryId: [null],
     });
   }
@@ -103,6 +110,11 @@ export class DetailsExpensesComponent {
     this.categoryForm.get("categoryId")?.valueChanges.subscribe((categoryId) => {
       if (categoryId == null || categoryId === "") return;
       this.updateRecurringNextTwelveMonthsByCategory(categoryId);
+    });
+
+    this.categoryYearForm.get("categoryId")?.valueChanges.subscribe((categoryId) => {
+      if (categoryId == null || categoryId === "") return;
+      this.updateCategoryYearlyChart(categoryId);
     });
     
   }
@@ -287,6 +299,11 @@ export class DetailsExpensesComponent {
           const defaultCategory = this.categoryOptions[0].value;
           this.categoryForm.get("categoryId")?.setValue(defaultCategory, { emitEvent: true });
         }
+
+        if (this.categoryOptions.length > 0 && !this.categoryYearForm.get("categoryId")?.value) {
+          const defaultCategory = this.categoryOptions[0].value;
+          this.categoryYearForm.get("categoryId")?.setValue(defaultCategory, { emitEvent: true });
+        }
       },
       error: () => {
         this.toastService.error("Erro ao carregar categorias.");
@@ -318,6 +335,80 @@ export class DetailsExpensesComponent {
       const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
                           'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
       return { month: monthNames[monthIndex], value: item.value, year: item.year };
+    });
+  }
+
+  private updateCategoryYearlyChart(categoryId: number | string): void {
+    const currentYear = new Date().getFullYear();
+    this.expenseService.getStaticsCategoryByCategoryAndYear(Number(categoryId), currentYear).subscribe({
+      next: (response) => {
+        this.categoryYearlyData = response;
+        this.createCategoryYearlyChart();
+      },
+      error: () => {
+        this.toastService.error("Erro ao buscar estatísticas da categoria.");
+        this.categoryYearlyData = [];
+        this.createCategoryYearlyChart();
+      },
+    });
+  }
+
+  private createCategoryYearlyChart(): void {
+    if (this.categoryYearlyChart) {
+      this.categoryYearlyChart.destroy();
+    }
+
+    const mapped = this.mapperCategoryYearlyData();
+    const categoryName = this.categoryYearlyData[0]?.categoryName || 'Categoria';
+    
+    this.categoryYearlyChart = new Chart("CategoryYearlyChart", {
+      type: 'bar',
+      data: {
+        labels: mapped.map(item => `${item.month}/${item.year}`),
+        datasets: [{
+          label: `${categoryName} - Despesas Mensais (Ano Completo)`,
+          data: mapped.map(item => item.total),
+          backgroundColor: '#ff6384',
+          borderColor: '#ff4571',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom'
+          },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: (context) => {
+                const value = context.parsed?.y || 0;
+                return `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return 'R$ ' + Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  private mapperCategoryYearlyData(): Array<{month: string, total: number, year: number}> {
+    return this.categoryYearlyData.map(item => {
+      const monthIndex = item.month - 1;
+      const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
+                          'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+      return { month: monthNames[monthIndex], total: item.total, year: item.year };
     });
   }
 }

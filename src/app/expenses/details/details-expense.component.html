@@ -41,5 +41,22 @@
         <canvas id="MyChart"></canvas>
       </div>
     </div>
+
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <h3>Despesas por Categoria - Ano Completo</h3>
+        <form [formGroup]="categoryYearForm" class="inline-form">
+          <app-select
+            formControlName="categoryId"
+            [options]="categoryOptions"
+            label="Categoria"
+            placeholder="Selecione"
+          ></app-select>
+        </form>
+      </div>
+      <div class="chart-card-body">
+        <canvas id="CategoryYearlyChart"></canvas>
+      </div>
+    </div>
   </div>
 </section>
